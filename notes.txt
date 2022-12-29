@@ -1,0 +1,36 @@
+Development notes:
+### things to have in mind...
+1) Airspeed:
+    - Has to be between 120 to 200 kts
+    - Must be by 10. No inbetweens.
+
+2) Altitude:
+    - Has to be between 5000 and 17000 fts.
+    - Must be by 100. No inbetweens.
+    - ATC Mode: has to be said correctly, number by number. I.e. One Five Thousand feet (15 000 ft).
+
+3) Heading:
+    - Has to be between 005 to 360.
+    - Must be by 5. No inbetweens.
+    - ATC Mode: has to be said digit by digit. I.e, heading two six zero (260) or heading zero one zero (010).
+    - ATC Mode: if heading  is either 360, 090, 180, or 270, have a chance of saying their related cardinal coordinate (I.e North instead of 360).
+
+4) Comm Frequency:
+    - Has to be between 118.00 and 121.40.
+    - Must be by 0.05. No inbetweens.
+    - ATC Mode: has to be said digit by digit and the decimal point as "Point" or "Decimal".
+    - ATC Mode: try to mix and match frequency change with  "apporach", "control", "departure", or similar.
+
+5) Nav Frequency:
+    - Has to be between 108.00 and 117.95.
+    - Must be by 0.05. No inbetweens.
+    - ATC Mode: has to be said digit by digit and the decimal point as "Point" or "Decimal".
+    - ATC Mode: must be said along Heading, Altitude, Airspeed, or mix matching.
+    - ATC Mode: VOR must be said as Vee Oh R.
+
+6) Altimeter Setting:
+    - Has to be between 27.5 and 31.5.
+    - Can be up to 0.01 decimal place and digit.
+    - ATC Mode: must be said in pairs. I.e. twenty nine, eighty five (29.85).
+    - ATC Mode: must be said along Altitude.
+
