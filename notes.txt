@@ -1,13 +1,13 @@
 Development notes:
 ### things to have in mind...
 1) Airspeed:
-    - Has to be between 120 to 200 kts
+    - Has to be between 100 to 250 kts
     - Must be by 10. No inbetweens.
 
 2) Altitude:
     - Has to be between 5000 and 17000 fts.
     - Must be by 100. No inbetweens.
-    - ATC Mode: has to be said correctly, number by number. I.e. One Five Thousand feet (15 000 ft).
+    - ATC Mode: has to be said correctly, number by number. I.e. One Five Thousand On Hundred feet (15 100 ft).
 
 3) Heading:
     - Has to be between 005 to 360.
@@ -29,7 +29,7 @@ Development notes:
     - ATC Mode: VOR must be said as Vee Oh R.
 
 6) Altimeter Setting:
-    - Has to be between 27.5 and 31.5.
+    - Has to be between 27.50 and 31.50.
     - Can be up to 0.01 decimal place and digit.
     - ATC Mode: must be said in pairs. I.e. twenty nine, eighty five (29.85).
     - ATC Mode: must be said along Altitude.
