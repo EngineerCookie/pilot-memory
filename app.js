@@ -5,15 +5,9 @@ let msg = new SpeechSynthesisUtterance(atc);
 window.speechSynthesis.speak(msg)
 */
 
-/*WORKSHOP*/
-let airspeed = document.querySelector('[data-airspeed]');
-let altimeter = document.querySelector('[data-altimeter]');
-let altSet = document.querySelector('[data-altsetting]');
-let heading = document.querySelector('[data-heading]');
-let comm = document.querySelector('[data-comm]');
-let nav = document.querySelector('[data-nav]');
-
-
+/*#######
+RANDOM GENERATORS
+#########*/
 function airspeedGen() {
     let result = Math.floor((Math.random() * 16) + 10);
     return result * 10;
@@ -83,8 +77,32 @@ let funcRepeater = (times) => {
     }
 }
 
-funcRepeater(40)
-//console.log([0].toString().split('.'))
-/*
-let  testing = '2992';
-console.log(`${testing.substring(0,2)}.${testing.substring(2,4)}`)*/
+//funcRepeater(40)
+
+/*######
+RENDER
+########*/
+let airspeed = document.querySelector('[data-airspeed]');
+let altimeter = document.querySelector('[data-altimeter]');
+let altSet = document.querySelector('[data-altsetting]');
+let heading = document.querySelector('[data-heading]');
+let comm = document.querySelector('[data-comm]');
+let nav = document.querySelector('[data-nav]');
+
+let instrumentSetter = () => {
+    let thousandComma = Intl.NumberFormat('en-US');
+    airspeed.textContent = airspeedGen();
+    altimeter.textContent = thousandComma.format(altitudeGen());
+    altSet.textContent = altSetGen();
+    heading.textContent = headingGen();
+    comm.textContent = commGen();
+    nav.textContent = navGen();
+}
+
+//instrumentSetter()
+
+let gameStart = () => {
+
+}
+
+/*WORKSHOP*/

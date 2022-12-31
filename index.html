@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,21 +10,51 @@
     <link rel="shortcut icon" href="#" type="image/x-icon">
     <script src="app.js" defer></script>
 </head>
+
 <body>
-    <main>
+    <main class="workspace">
         <h1>Pilot Memory Game (WIP)</h1>
-        <div class="workspace">
+        <!--
+            <div class="atc-mode"></div>
+        -->
+        <div class="primary-flight-display">
+            <!--THIS IS RELATIVE WITH SVG AS A BACKGROUND IMG--><!--PENDING: SIX DIVS THAT WILL CONTAIN THE INPUT ELEM AND THE RENDER TARGET-->
+            <!--
+            <p>Airspeed <span ></span></p>
+            <p>Altimeter <span ></span></p>
+            <p>Altimeter Setting <span data-altsetting></span></p>
+            <p>Heading <span data-heading></span></p>
+            <p>Comm Frequency <span data-comm></span></p>
+            <p>Nav Frequency <span  data-nav></span></p>
+            -->
             <div class="instrument-panel">
-                <div class="instrument"> <!--WITH SVG AS A BACKGROUND IMG-->
-                    <p>Airspeed <span data-airspeed></span></p>
-                    <p>Altimeter <span data-altimeter></span></p>
-                    <p>Altimeter Setting <span data-altsetting></span></p>
-                    <p>Heading <span data-heading></span></p>
-                    <p>Comm Frequency <span data-comm></span></p>
-                    <p>Nav Frequency <span  data-nav></span></p>
+                <div class="instrument airspeed">
+                    <span data-airspeed class="">AIRSPEED</span>
+                    <input />
+                </div>
+                <div class="instrument altimeter">
+                    <span data-altimeter class="">ALTIMETER</span>
+                    <input />
+                </div>
+                <div class="instrument alt-setting">
+                    <span data-altsetting class="">ALTSETTING</span>
+                    <input />
+                </div>
+                <div class="instrument heading">
+                    <span data-heading class="">HEADING</span>
+                    <input />
+                </div>
+                <div class="instrument freq-comm">
+                    <span data-comm class="">COMM</span>
+                    <input />
+                </div>
+                <div class="instrument freq-nav">
+                    <span data-nav class="">NAV</span>
+                    <input />
                 </div>
             </div>
         </div>
     </main>
 </body>
+
 </html>

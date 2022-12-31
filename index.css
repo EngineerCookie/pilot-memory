@@ -1,0 +1,56 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 18px;
+}
+
+body {
+    margin: 0;
+}
+
+.workspace {
+    position: relative;
+    background-color: teal;
+    height: 100dvh;
+    margin: 0;
+}
+
+.workspace>h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.primary-flight-display {
+    position: absolute;
+    background-image: url('./src/img/instrument.svg');
+    background-size: cover;
+    inset: 0;
+    margin: auto;
+    width: 100vw;
+    height: 100vw;
+}
+
+.instrument-panel {
+    position: relative;
+    height: 100%;
+}
+
+.instrument {
+    display: none;
+    position: absolute;
+    height: 50px;
+    width: 100px;
+    background-color: red;
+}
+
+.airspeed {
+    top: 50%;
+}
+
+.instrument>input {
+    display: none;
+}
