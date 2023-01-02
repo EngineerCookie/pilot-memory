@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=B612:wght@400;700&display=swap');
+
 *,
 *::before,
 *::after {
@@ -6,6 +8,39 @@
 
 :root {
     font-size: 18px;
+    /*#####
+    VARIABLES
+    #######*/
+    /*@@ COLOR @@*/
+    /*---font---*/
+    --cwhite-h: 360;
+    --cwhite-s: 100%;
+    --cwhite-l: 100%;
+    --cgreen-h: 111;
+    --cgreen-s: 98%;
+    --cgreen-l: 56%;
+    --cred-h: 360;
+    --cred-s: 94%;
+    --cred-l: 50%;
+    --cyellow-h: 43;
+    --cyellow-s: 82%;
+    --cyellow-l: 48%;
+    --cmagenta-h: 318;
+    --cmagenta-s: 63%;
+    --cmagenta-l: 41%;
+    --cblue-h: 189;
+    --cblue-s: 66%;
+    --cblue-l: 47%;
+    /*---background---*/
+    --cblack-h: 0;
+    --cblack-s: 0%;
+    --cblack-l: 0%;
+    /*@@ FONT @@*/
+    --ff: 'B612', sans-serif;
+    --fs-l: 2rem;
+    --fs-m: 1.5rem;
+    --fs-s: 1rem;
+    --fs-xs: 0.5rem;
 }
 
 body {
@@ -14,29 +49,30 @@ body {
 
 .workspace {
     position: relative;
-    background-color: teal;
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     height: 100dvh;
     margin: 0;
+    font-family: var(--ff)
 }
 
 .workspace>h1 {
     margin: 0;
+    padding-top: 2rem;
     text-align: center;
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l))
 }
 
+/*#######
+PRIMARY FLIGHT DISPLAY
+#########*/
 .primary-flight-display {
     position: absolute;
     background-image: url('./src/img/instrument.svg');
     background-size: cover;
     inset: 0;
     margin: auto;
-    width: 650px;
-    height: 650px;
-    /* MEDIA QUERY*/
-    /*width: 100vw;
-    height: 100vw;*/
-    /*width: 300px;
-    height: 300px;*/
+    width: clamp(300px, 100vw, 650px);
+    height: clamp(300px, 100vw, 650px);
 }
 
 .instrument-panel {
@@ -45,41 +81,90 @@ body {
 }
 
 .instrument {
+    --pfd-white: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    --pfd-green: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
+    --pfd-blue: hsl(var(--cblue-h), var(--cblue-s), var(--cblue-l));
+    --pfd-yellow: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
     position: absolute;
-    background-color: red;
-    font-size: clamp(1rem, 2vw, 2rem); /*NEED TO FINE TUNE*/
+    font-size: clamp(var(--fs-s), 5vw, var(--fs-l));
 }
 
 .airspeed {
+    color: var(--pfd-white);
     top: 52%;
     left: 11%;
+    max-width: 3ch;
 }
 
 .altimeter {
+    color: var(--pfd-white);
     top: 52%;
-    right: 10%;
+    right: 8%;
+    max-width: 5ch;
+}
+
+.altimeter>span>sup {
+    font-size: clamp(var(--fs-xs),4vw, var(--fs-m));
+    /*font-size: var(--fs-m);*/
 }
 
 .alt-setting {
+    color: var(--pfd-green);
     top: 80%;
-    right: 10%;
+    right: 8%;
+    max-width: 5ch;
 }
 
 .heading {
+    color: var(--pfd-white);
     bottom: 10%;
-    left: 44%;
+    left: 43%;
+    max-width: 3ch;
 }
 
 .freq-comm {
+    color: var(--pfd-green);
     top: 7%;
     right: 11%;
+    max-width: 6ch;
 }
 
 .freq-nav {
+    color: var(--pfd-green);
     top: 7%;
     left: 11%;
+    max-width: 6ch;
 }
 
 .instrument>input {
     display: none;
+    max-width: inherit;
+    text-align: center;
+    color: inherit;
+    background-color: transparent;
+    font-size: inherit;
+    border: 1px lightgrey solid;
+}
+
+.instrument>span {
+    display: block;
+}
+
+/*#######
+BUTTON CONTAINER
+#########*/
+.container-btn {
+    inset: 0;
+    margin: auto auto 0 auto;
+    height: 100px;
+    background-color: purple;
+    bottom: 0;
+}
+
+
+/*######
+ATC MODE
+########*/
+.atc-mode {
+    color: white;
 }

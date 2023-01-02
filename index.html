@@ -14,46 +14,47 @@
 <body>
     <main class="workspace">
         <h1>Pilot Memory Training (WIP)</h1>
-        <!--
-            <div class="atc-mode"></div>
+        <!-- CAPTION MUST BE ON TOP OF EVERYTHING ABSOLUTELY
+        <div class="atc-mode">ATCMODE</div>
         -->
         <div class="primary-flight-display">
-            <!--THIS IS RELATIVE WITH SVG AS A BACKGROUND IMG--><!--PENDING: SIX DIVS THAT WILL CONTAIN THE INPUT ELEM AND THE RENDER TARGET-->
-            <!--
-            <p>Airspeed <span ></span></p>
-            <p>Altimeter <span ></span></p>
-            <p>Altimeter Setting <span data-altsetting></span></p>
-            <p>Heading <span data-heading></span></p>
-            <p>Comm Frequency <span data-comm></span></p>
-            <p>Nav Frequency <span  data-nav></span></p>
-            -->
+            <!--TODO: TIMER BAR. ONE TIMER AT THE TOP FOR TOTAL GAMEPLAY TIME AND ONE ON THE BOTTOM FOR MEMORY TIMER-->
             <div class="instrument-panel">
                 <div class="instrument airspeed">
                     <span data-airspeed class="">123</span>
-                    <input />
+                    <input maxlength="3" />
                 </div>
                 <div class="instrument altimeter">
-                    <span data-altimeter class="">12345</span>
-                    <input />
+                    <span data-altimeter class="">12<sup>345</sup></span>
+                    <input maxlength="5" />
                 </div>
                 <div class="instrument alt-setting">
                     <span data-altsetting class="">29.92</span>
-                    <input />
+                    <input maxlength="5" />
                 </div>
                 <div class="instrument heading">
                     <span data-heading class="">360</span>
-                    <input />
+                    <input maxlength="3" />
                 </div>
                 <div class="instrument freq-comm">
                     <span data-comm class="">123.45</span>
-                    <input />
+                    <input maxlength="6" />
                 </div>
                 <div class="instrument freq-nav">
                     <span data-nav class="">678.90</span>
-                    <input />
+                    <input maxlength="6" />
                 </div>
             </div>
+            <div class="container-btn"><!--BTN CONTAINERS-->
+                <!--PLACEHOLDER: MOBILE CUSTOM NUM PAD-->
+                <div class="num-pad">
+
+                </div>
+                <button>START GAME</button>
+            </div>
         </div>
+
+
     </main>
 </body>
 

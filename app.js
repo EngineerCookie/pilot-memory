@@ -90,17 +90,24 @@ let comm = document.querySelector('[data-comm]');
 let nav = document.querySelector('[data-nav]');
 
 let instrumentSetter = () => {
-    let thousandComma = Intl.NumberFormat('en-US');
+    let regex = /([0-9]+)([0-9]{3})/;
+    let altResult = altitudeGen().toString() //PLACEHOLDER
+    let altFormat = altResult.match(regex); 
     airspeed.textContent = airspeedGen();
-    altimeter.textContent = thousandComma.format(altitudeGen());
+    altimeter.innerHTML = `${altFormat[1]}<sup>${altFormat[2]}</sup>`;
     altSet.textContent = altSetGen();
     heading.textContent = headingGen();
     comm.textContent = commGen();
     nav.textContent = navGen();
 }
 
-//instrumentSetter()
-
+instrumentSetter()
+/*
+let inputTest = document.querySelector('input')
+inputTest.value="OLI"
+inputTest.readOnly = true;
+console.log(inputTest)
+*/
 let gameStart = () => {
 
 }
