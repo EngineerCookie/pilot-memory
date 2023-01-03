@@ -43,6 +43,7 @@
     --fs-xs: 0.5rem;
 }
 
+
 body {
     margin: 0;
 }
@@ -50,6 +51,7 @@ body {
 .workspace {
     position: relative;
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    height: 100vh;
     height: 100dvh;
     margin: 0;
     font-family: var(--ff)
