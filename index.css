@@ -59,7 +59,7 @@ body>h1 {
     margin: 0;
     padding-top: 2rem;
     text-align: center;
-    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l))
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
 }
 
 
@@ -177,8 +177,9 @@ PRIMARY FLIGHT DISPLAY
     user-select: none;
 }
 
-.instrument>input { /*Answer INPUT boxes*/
-    display: none;
+.instrument>input {
+    /*Answer INPUT boxes*/
+    display: block;
     max-width: inherit;
     text-align: center;
     color: inherit;
@@ -187,8 +188,9 @@ PRIMARY FLIGHT DISPLAY
     border: 1px lightgrey solid;
 }
 
-.instrument>span { /*Answeer display boxes*/
-    display: block;
+.instrument>span {
+    /*Answer display boxes*/
+    display: none;
 }
 
 #callsign-input {
@@ -215,18 +217,73 @@ BUTTON CONTAINER
     height: max-content;
 }
 
-.num-pad {
-    height: 70%;
-    width: 100%;
-    background-color: lime;
-    display: block;
-}
-
 .setting {
     height: 70%;
     background-color: lavender;
     display: none;
 }
+
+.num-pad {
+    height: 270px;
+    width: 270px;
+    background-color: lime;
+    margin: 0.5rem 1rem;
+    display: none; /*ACTIVE GRID*/
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px;
+    background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
+
+}
+
+.num-key {
+    font-family: var(--ff);
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    text-transform: uppercase;
+    justify-self: center;
+    align-self: center;
+    box-shadow: 0px 0px 1px 1px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    -webkit-box-shadow: 0px 0px 1px 1px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    -moz-box-shadow: 0px 0px 1px 1px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+}
+
+.num-key:active{
+    --cblack-l: 20%;
+}
+
+.k-num {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    font-size: var(--fs-m);
+}
+
+.k-action {
+    font-size: var(--fs-xs);
+    width: 55px;
+    height: 35px;
+    padding: 2px;
+    border: none;
+}
+
+.k-action:nth-of-type(3) {
+    position: relative;
+}
+
+.k-action:nth-of-type(3)::after {
+    content: "";
+    background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
+    position: absolute;
+    width: 45px;
+    height: 3px;
+    left: 10%;
+    bottom: 15%;
+    border-radius: 15px;
+}
+
+
 
 .btn-action>button {
     font-family: var(--ff);

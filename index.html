@@ -22,27 +22,27 @@
             <div class="instrument-panel">
                 <div class="instrument airspeed">
                     <span data-airspeed class="" tooltip="Airspeed Indicator">123</span>
-                    <input maxlength="3" />
+                    <input maxlength="3" tabindex="3" />
                 </div>
                 <div class="instrument altimeter">
                     <span data-altimeter class="" tooltip="Altimeter Indicator">15<sup>500</sup></span>
-                    <input maxlength="5" />
+                    <input maxlength="5" tabindex="4" />
                 </div>
                 <div class="instrument alt-setting">
                     <span data-altsetting class="" tooltip="Altimeter Setting">29.92</span>
-                    <input maxlength="5" />
+                    <input maxlength="5" tabindex="6" />
                 </div>
                 <div class="instrument heading">
                     <span data-heading class="" tooltip="Heading Indicator">360</span>
-                    <input maxlength="3" />
+                    <input maxlength="3" tabindex="5" />
                 </div>
                 <div class="instrument freq-comm">
                     <span data-comm class="" tooltip="Radio Communication Frequency">123.2</span>
-                    <input maxlength="6" />
+                    <input maxlength="6" tabindex="2" />
                 </div>
                 <div class="instrument freq-nav">
                     <span data-nav class="" tooltip="Navigation Frequency">110.1</span>
-                    <input maxlength="6" />
+                    <input maxlength="6" tabindex="1" />
                 </div>
                 <div class="callsign">
                     <span>Custom Callsign</span>
@@ -51,9 +51,23 @@
             </div>
         </div>
         <div class="container-btn"><!--BTN CONTAINERS-->
-            <!--PLACEHOLDER: MOBILE CUSTOM NUM PAD-->
+            <!--PLACEHOLDER: MOBILE CUSTOM NUM PAD. TODO: REACTIVE TO AVOID HIDING  TITLE-->
             <div class="num-pad">
-                123
+                <button class="num-key k-action">prev</button>
+                <button class="num-key k-action">next</button>
+                <button class="num-key k-action">exec</button>
+                <button class="num-key k-num">1</button>
+                <button class="num-key k-num">2</button>
+                <button class="num-key k-num">3</button>
+                <button class="num-key k-num">4</button>
+                <button class="num-key k-num">5</button>
+                <button class="num-key k-num">6</button>
+                <button class="num-key k-num">7</button>
+                <button class="num-key k-num">8</button>
+                <button class="num-key k-num">9</button>
+                <button class="num-key k-num">.</button>
+                <button class="num-key k-num">0</button>
+                <button class="num-key k-action">clr</button>
             </div>
             <!--PLACEHOLDERL: DIFICULTY SETTINGS-->
             <div class="setting">
