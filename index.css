@@ -35,60 +35,89 @@
     --cblack-h: 0;
     --cblack-s: 0%;
     --cblack-l: 0%;
+    --cbgrey-h: 0;
+    --cbgrey-s: 0%;
+    --cbgrey-l: 21%;
     /*@@ FONT @@*/
     --ff: 'B612', sans-serif;
     --fs-l: 2rem;
     --fs-m: 1.5rem;
     --fs-s: 1rem;
-    --fs-xs: 0.5rem;
+    --fs-xs: 0.8rem;
 }
 
 
 body {
     margin: 0;
-}
-
-.workspace {
     position: relative;
-    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     height: 100vh;
     height: 100dvh;
-    margin: 0;
-    font-family: var(--ff)
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
 }
 
-.workspace>h1 {
+body>h1 {
     margin: 0;
     padding-top: 2rem;
     text-align: center;
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l))
 }
 
+
+.workspace {
+    position: absolute;
+    font-family: var(--ff);
+    height: max-content;
+    width: max-content;
+    inset: 0;
+    margin: auto;
+}
+
+
 /*#######
 PRIMARY FLIGHT DISPLAY
 #########*/
 .primary-flight-display {
-    position: absolute;
     background-image: url('./src/img/instrument.svg');
     background-size: cover;
-    inset: 0;
-    margin: auto;
     width: clamp(300px, 100vw, 650px);
     height: clamp(300px, 100vw, 650px);
 }
 
 .instrument-panel {
+    --pfd-white: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    --pfd-green: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
+    --pfd-blue: hsl(var(--cblue-h), var(--cblue-s), var(--cblue-l));
+    --pfd-yellow: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
+    --pfd-magenta: hsl(var(--cmagenta-h), var(--cmagenta-s), var(--cmagenta-l));
     position: relative;
     height: 100%;
 }
 
 .instrument {
-    --pfd-white: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
-    --pfd-green: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
-    --pfd-blue: hsl(var(--cblue-h), var(--cblue-s), var(--cblue-l));
-    --pfd-yellow: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
     position: absolute;
     font-size: clamp(var(--fs-s), 5vw, var(--fs-l));
+}
+
+.instrument>span {
+    user-select: none;
+    position: relative;
+}
+
+.instrument>span:hover {
+    cursor: help;
+}
+
+.instrument>span:hover::after {
+    content: attr(tooltip);
+    position: absolute;
+    top: 100%;
+    left: -50%;
+    font-size: var(--fs-xs);
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    transform: translate(-10%, 0);
+    z-index: 10;
 }
 
 .airspeed {
@@ -106,7 +135,7 @@ PRIMARY FLIGHT DISPLAY
 }
 
 .altimeter>span>sup {
-    font-size: clamp(var(--fs-xs),4vw, var(--fs-m));
+    font-size: clamp(var(--fs-xs), 4vw, var(--fs-m));
     /*font-size: var(--fs-m);*/
 }
 
@@ -138,7 +167,17 @@ PRIMARY FLIGHT DISPLAY
     max-width: 6ch;
 }
 
-.instrument>input {
+.callsign {
+    position: absolute;
+    color: var(--pfd-magenta);
+    font-size: clamp(var(--fs-xs), 4vw, var(--fs-m));
+    left: 32%;
+    top: 17%;
+    max-width: 12ch;
+    user-select: none;
+}
+
+.instrument>input { /*Answer INPUT boxes*/
     display: none;
     max-width: inherit;
     text-align: center;
@@ -148,21 +187,55 @@ PRIMARY FLIGHT DISPLAY
     border: 1px lightgrey solid;
 }
 
-.instrument>span {
+.instrument>span { /*Answeer display boxes*/
     display: block;
+}
+
+#callsign-input {
+    display: block;
+    max-width: inherit;
+    text-transform: uppercase;
+    margin: auto;
+    text-align: center;
+    color: inherit;
+    background-color: transparent;
+    font-size: inherit;
+    border: 1px lightgrey solid;
 }
 
 /*#######
 BUTTON CONTAINER
 #########*/
 .container-btn {
-    inset: 0;
-    margin: auto auto 0 auto;
-    height: 100px;
-    background-color: purple;
-    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
+    height: max-content;
 }
 
+.num-pad {
+    height: 70%;
+    width: 100%;
+    background-color: lime;
+    display: block;
+}
+
+.setting {
+    height: 70%;
+    background-color: lavender;
+    display: none;
+}
+
+.btn-action>button {
+    font-family: var(--ff);
+    font-size: var(--fs-s);
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    padding: 0.5rem 1.5rem;
+    text-transform: uppercase;
+}
 
 /*######
 ATC MODE

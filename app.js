@@ -101,7 +101,7 @@ let instrumentSetter = () => {
     nav.textContent = navGen();
 }
 
-instrumentSetter()
+//instrumentSetter()
 /*
 let inputTest = document.querySelector('input')
 inputTest.value="OLI"
