@@ -179,7 +179,7 @@ PRIMARY FLIGHT DISPLAY
 
 .instrument>input {
     /*Answer INPUT boxes*/
-    display: block;
+    display: none;
     max-width: inherit;
     text-align: center;
     color: inherit;
@@ -190,7 +190,7 @@ PRIMARY FLIGHT DISPLAY
 
 .instrument>span {
     /*Answer display boxes*/
-    display: none;
+    display: block;
 }
 
 #callsign-input {
@@ -228,7 +228,8 @@ BUTTON CONTAINER
     width: 270px;
     background-color: lime;
     margin: 0.5rem 1rem;
-    display: none; /*ACTIVE GRID*/
+    display: none;
+    /*ACTIVE GRID*/
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     padding: 10px;
@@ -248,7 +249,7 @@ BUTTON CONTAINER
     -moz-box-shadow: 0px 0px 1px 1px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
 }
 
-.num-key:active{
+.num-key:active {
     --cblack-l: 20%;
 }
 
@@ -292,6 +293,55 @@ BUTTON CONTAINER
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     padding: 0.5rem 1.5rem;
     text-transform: uppercase;
+}
+
+
+/*########
+COUNTDOWN
+##########*/
+.countdown {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(25px);
+    user-select: none;
+}
+
+.countdown>div {
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    font-size: var(--fs-l);
+    border-radius: 50%;
+    color: white;
+}
+
+.countdown>div::before {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: 50%;
+    border: solid white 5px;
+    border-color: white  transparent transparent transparent;
+    transform: rotate(46deg);
+    animation: borderAnim 1s linear infinite;
+
+}
+
+@keyframes borderAnim {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /*######

@@ -82,6 +82,7 @@ let funcRepeater = (times) => {
 /*######
 RENDER
 ########*/
+let workspace = document.querySelector('.workspace');
 let airspeed = document.querySelector('[data-airspeed]');
 let altimeter = document.querySelector('[data-altimeter]');
 let altSet = document.querySelector('[data-altsetting]');
@@ -108,8 +109,85 @@ inputTest.value="OLI"
 inputTest.readOnly = true;
 console.log(inputTest)
 */
-let gameStart = () => {
 
+/*########
+GAME START
+##########*/
+let startBtn = document.querySelector('[data-action]');
+let answerHistory;
+
+function gameStart() {
+    let answers = {
+        airspeed: undefined,
+        heading: undefined,
+        altimeter: undefined,
+        altSet: undefined,
+        comm: undefined,
+        nav: undefined
+    }
+    answerHistory = [];
+    startBtn.dataset.action = 'submit'
+    console.log(`the game has  started booi`)
 }
 
+function countDown() {
+    let countdown = document.createElement('div')
+    countdown.classList.add('countdown');
+    let countTimer = document.createElement('div');
+    countTimer.textContent = 3
+    countdown.appendChild(countTimer);
+    workspace.appendChild(countdown)
+    
+    let interval = setInterval(() => {
+        if (countTimer.textContent <= 1) {
+            clearInterval(interval)
+            countdown.remove()
+            gameStart()
+        } else { countTimer.textContent -= 1 }
+    }, 1000)
+}
+
+//Need to makee  diferent funnction for the same btn depending  onn data-action
+startBtn.addEventListener('click', () => {  
+    switch(startBtn.dataset.action) {
+        case "start":
+            console.log(`Start the game`);
+            countDown()
+            break;
+        case "submit":
+            console.log(`Submit answer`);
+            break;
+        case "menu":
+            console.log(`Return to Main Menu`);
+            break;
+        default: 
+            console.log(`Something wrong  with  the action btn`)
+    }
+})
+
+
 /*WORKSHOP*/
+/*
+let testObjArr = []
+
+function objValueGen (num) {
+    let testObj = {
+        a: undefined,
+        b: undefined,
+        c: undefined
+    }
+    testObj.a = num;
+    testObj.b = num * num;
+    testObj.c =  num * num * num;
+    console.log(`Resultados para ${num}=`);
+    console.log(testObj)
+    testObjArr.push(testObj)
+}
+
+objValueGen(5)
+objValueGen(7)
+objValueGen(2)
+objValueGen(9)
+objValueGen(8)
+console.log(testObjArr)*/
+
