@@ -177,8 +177,7 @@ PRIMARY FLIGHT DISPLAY
     user-select: none;
 }
 
-.instrument>input {
-    /*Answer INPUT boxes*/
+.instrument>input { /*Answer INPUT boxes*/
     display: none;
     max-width: inherit;
     text-align: center;
@@ -188,10 +187,18 @@ PRIMARY FLIGHT DISPLAY
     border: 1px lightgrey solid;
 }
 
-.instrument>span {
-    /*Answer display boxes*/
+.instrument>span { /*Answer display boxes*/
+    display: none;
+}
+
+.instrument>input.active {
     display: block;
 }
+
+.instrument>span.active {
+    display: block;
+}
+
 
 #callsign-input {
     display: block;
@@ -203,6 +210,11 @@ PRIMARY FLIGHT DISPLAY
     background-color: transparent;
     font-size: inherit;
     border: 1px lightgrey solid;
+}
+
+#callsign-input:read-only {
+    pointer-events: none;
+    border: none;
 }
 
 /*#######
@@ -295,6 +307,10 @@ BUTTON CONTAINER
     text-transform: uppercase;
 }
 
+.btn-action>button.disabled {
+    pointer-events: none;
+}
+
 
 /*########
 COUNTDOWN
@@ -328,7 +344,7 @@ COUNTDOWN
     position: absolute;
     border-radius: 50%;
     border: solid white 5px;
-    border-color: white  transparent transparent transparent;
+    border-color: white transparent transparent transparent;
     transform: rotate(46deg);
     animation: borderAnim 1s linear infinite;
 
@@ -338,11 +354,36 @@ COUNTDOWN
     0% {
         transform: rotate(0deg);
     }
-    
+
     100% {
         transform: rotate(360deg);
     }
 }
+
+/*#########
+GAME START ELEMS
+###########*/
+.timer-bar {
+    position: absolute;
+    width: 100%;
+    height:5px;
+    background-color: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
+    inset: 0 0 auto 0;
+    animation-name: timeBar;
+    animation-timing-function: linear;
+}
+
+@keyframes timeBar {
+    0%{
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}
+
+
 
 /*######
 ATC MODE

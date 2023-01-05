@@ -49,24 +49,24 @@ function headingGen() {
 
 function commGen() {
     let a, b;
-    a = Math.round(Math.random()*3) + 118;
+    a = Math.round(Math.random() * 3) + 118;
     if (a == 121) {
-        b = [((Math.round(Math.random()*8))*5)/10].toString().split('.').join('')
+        b = [((Math.round(Math.random() * 8)) * 5) / 10].toString().split('.').join('')
     } else {
-        b = [((Math.round(Math.random()*10))*5)/10].toString().split('.').join('')
+        b = [((Math.round(Math.random() * 10)) * 5) / 10].toString().split('.').join('')
     }
     return `${a}.${b}`;
 }
 
 function navGen() {
     let a, b;
-    a = Math.round(Math.random()*9) + 108;
-    b = [((Math.round(Math.random()*10))*5)/10].toString().split('.').join('');
+    a = Math.round(Math.random() * 9) + 108;
+    b = [((Math.round(Math.random() * 10)) * 5) / 10].toString().split('.').join('');
     return `${a}.${b}`;
 }
 
-function altSetGen()  {
-    let result = `${Math.round(Math.random()*400) + 2750}`;
+function altSetGen() {
+    let result = `${Math.round(Math.random() * 400) + 2750}`;
     let a = result.substring(0, 2), b = result.substring(2, 4)
     return `${a}.${b}`;
 }
@@ -79,27 +79,115 @@ let funcRepeater = (times) => {
 
 //funcRepeater(40)
 
-/*######
-RENDER
-########*/
+/*########
+GAME START
+##########*/
+let startBtn = document.querySelector('[data-action]');
 let workspace = document.querySelector('.workspace');
-let airspeed = document.querySelector('[data-airspeed]');
-let altimeter = document.querySelector('[data-altimeter]');
-let altSet = document.querySelector('[data-altsetting]');
-let heading = document.querySelector('[data-heading]');
-let comm = document.querySelector('[data-comm]');
-let nav = document.querySelector('[data-nav]');
+let callsign = document.querySelector('#callsign-input');
+let instrumentIndicators = document.querySelectorAll('[data-instrument]')
+let inputBox = document.querySelectorAll('[data-user-answer]')
+let answerHistory = {
+    correct: [],
+    userInput: []
+};
+let timer = undefined; //GLOBAL timer... sets the length for the WHOLE game. Must be used for render at gamestart() and for result page at submitBtn
 
-let instrumentSetter = () => {
+function countDown() {
+    let countdown = document.createElement('div')
+    countdown.classList.add('countdown');
+    let countTimer = document.createElement('div');
+    countTimer.textContent = 1 //Default 3. Change 1 for DEV
+    countdown.appendChild(countTimer);
+    workspace.appendChild(countdown)
+
+    let interval = setInterval(() => {
+        if (countTimer.textContent <= 1) {
+            clearInterval(interval)
+            countdown.remove()
+            gameStart()
+        } else { countTimer.textContent -= 1 }
+    }, 1000)
+}
+
+function gameStart() { //must have the whole game's timer about 1min or so
+    //TIMER var must be global. Timer ELEM has to be rendered HERE
+    startBtn.dataset.action = 'submit';
+    callsign.readOnly = true;
+    console.log(`the game has  started booi`)
+    answerGen()
+}
+
+function answerGen() { //Generates the correct answers || will have timer about 5s or 10s
+    let airspeed = document.querySelector('[data-instrument="airspeed"]');
+    let altimeter = document.querySelector('[data-instrument="altimeter"]');
+    let altSet = document.querySelector('[data-instrument="altSet"]');
+    let heading = document.querySelector('[data-instrument="heading"]');
+    let comm = document.querySelector('[data-instrument="comm"]');
+    let nav = document.querySelector('[data-instrument="nav"]');
+    let correctAnswers = {
+        airspeed: airspeedGen(),
+        heading: headingGen(),
+        altimeter: altitudeGen(),
+        altSet: altSetGen(),
+        comm: commGen(),
+        nav: navGen()
+    };
+    //push to answerHistory
+    answerHistory.correct.push(correctAnswers);
+
+    //render answers on screen
     let regex = /([0-9]+)([0-9]{3})/;
-    let altResult = altitudeGen().toString() //PLACEHOLDER
-    let altFormat = altResult.match(regex); 
-    airspeed.textContent = airspeedGen();
+    let altFormat = correctAnswers.altimeter.toString().match(regex);
+
+    airspeed.textContent = correctAnswers.airspeed;
     altimeter.innerHTML = `${altFormat[1]}<sup>${altFormat[2]}</sup>`;
-    altSet.textContent = altSetGen();
-    heading.textContent = headingGen();
-    comm.textContent = commGen();
-    nav.textContent = navGen();
+    altSet.textContent = correctAnswers.altSet;
+    heading.textContent = correctAnswers.heading;
+    comm.textContent = correctAnswers.comm;
+    nav.textContent = correctAnswers.nav;
+
+    instrumentIndicators.forEach((indicator) => {
+        indicator.classList.add('active');
+    })
+    inputBox.forEach((input) => {
+        input.classList.remove('active');
+    })
+
+    //disable submit btn
+    startBtn.classList.add('disabled');
+
+
+    //render memorization timer
+    let memoTimer = document.createElement('div');
+    memoTimer.classList.add('timer-bar');
+    workspace.appendChild(memoTimer);
+    memoTimer.style.animationDuration = '5s';
+
+    setTimeout(() => {
+        memoTimer.remove();
+        instrumentIndicators.forEach((indicator) => {
+            indicator.classList.toggle('active');
+        })
+        inputBox.forEach((input) => {
+            input.classList.toggle('active');
+            input.value = ''
+        })
+        startBtn.classList.remove('disabled');
+    }, 5000);
+
+}
+
+function inputSubmit() { //captures user's input / answers
+    let userAnswer = {
+        "airspeed": undefined,
+        "heading": undefined,
+        "altimeter": undefined,
+        "altSet": undefined,
+        "comm": undefined,
+        "nav": undefined
+    }
+    //push to answerHistory
 }
 
 //instrumentSetter()
@@ -110,57 +198,27 @@ inputTest.readOnly = true;
 console.log(inputTest)
 */
 
-/*########
-GAME START
-##########*/
-let startBtn = document.querySelector('[data-action]');
-let answerHistory;
 
-function gameStart() {
-    let answers = {
-        airspeed: undefined,
-        heading: undefined,
-        altimeter: undefined,
-        altSet: undefined,
-        comm: undefined,
-        nav: undefined
-    }
-    answerHistory = [];
-    startBtn.dataset.action = 'submit'
-    console.log(`the game has  started booi`)
-}
 
-function countDown() {
-    let countdown = document.createElement('div')
-    countdown.classList.add('countdown');
-    let countTimer = document.createElement('div');
-    countTimer.textContent = 3
-    countdown.appendChild(countTimer);
-    workspace.appendChild(countdown)
-    
-    let interval = setInterval(() => {
-        if (countTimer.textContent <= 1) {
-            clearInterval(interval)
-            countdown.remove()
-            gameStart()
-        } else { countTimer.textContent -= 1 }
-    }, 1000)
-}
+
+
+
 
 //Need to makee  diferent funnction for the same btn depending  onn data-action
-startBtn.addEventListener('click', () => {  
-    switch(startBtn.dataset.action) {
+startBtn.addEventListener('click', () => {
+    switch (startBtn.dataset.action) {
         case "start":
             console.log(`Start the game`);
             countDown()
             break;
         case "submit":
             console.log(`Submit answer`);
+            answerGen()
             break;
         case "menu":
-            console.log(`Return to Main Menu`);
+            console.log(`Return to Main Menu`); //must set Instrument Span class Active
             break;
-        default: 
+        default:
             console.log(`Something wrong  with  the action btn`)
     }
 })

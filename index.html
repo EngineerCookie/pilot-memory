@@ -21,32 +21,32 @@
             <!--TODO: TIMER BAR. ONE TIMER AT THE TOP FOR TOTAL GAMEPLAY TIME AND ONE ON THE BOTTOM FOR MEMORY TIMER-->
             <div class="instrument-panel">
                 <div class="instrument airspeed">
-                    <span data-airspeed class="" tooltip="Airspeed Indicator">123</span>
-                    <input maxlength="3" tabindex="3" />
+                    <span data-instrument='airspeed' class="active" tooltip="Airspeed Indicator">123</span>
+                    <input data-user-answer="airspeed" maxlength="3" tabindex="3" class="" />
                 </div>
                 <div class="instrument altimeter">
-                    <span data-altimeter class="" tooltip="Altimeter Indicator">15<sup>500</sup></span>
-                    <input maxlength="5" tabindex="4" />
+                    <span data-instrument='altimeter' class="active" tooltip="Altimeter Indicator">15<sup>500</sup></span>
+                    <input data-user-answer="altimeter" maxlength="5" tabindex="4" class="" />
                 </div>
                 <div class="instrument alt-setting">
-                    <span data-altsetting class="" tooltip="Altimeter Setting">29.92</span>
-                    <input maxlength="5" tabindex="6" />
+                    <span data-instrument='altSet' class="active" tooltip="Altimeter Setting">29.92</span>
+                    <input data-user-answer="altSet" maxlength="5" tabindex="6" />
                 </div>
                 <div class="instrument heading">
-                    <span data-heading class="" tooltip="Heading Indicator">360</span>
-                    <input maxlength="3" tabindex="5" />
+                    <span data-instrument='heading' class="active" tooltip="Heading Indicator">360</span>
+                    <input data-user-answer="heading" maxlength="3" tabindex="5" class="" />
                 </div>
                 <div class="instrument freq-comm">
-                    <span data-comm class="" tooltip="Radio Communication Frequency">123.2</span>
-                    <input maxlength="6" tabindex="2" />
+                    <span data-instrument='comm' class="active" tooltip="Radio Communication Frequency">123.2</span>
+                    <input data-user-answer="comm" maxlength="6" tabindex="2" class="" />
                 </div>
                 <div class="instrument freq-nav">
-                    <span data-nav class="" tooltip="Navigation Frequency">110.1</span>
-                    <input maxlength="6" tabindex="1" />
+                    <span data-instrument='nav' class="active" tooltip="Navigation Frequency">110.1</span>
+                    <input data-user-answer="nav" maxlength="6" tabindex="1" class="" />
                 </div>
                 <div class="callsign">
                     <span>Custom Callsign</span>
-                    <input id="callsign-input" data-callsign value="hp-123" />
+                    <input id="callsign-input" data-callsign value="hp-123" tabindex="-1" />
                 </div>
             </div>
         </div>
