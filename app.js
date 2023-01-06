@@ -70,7 +70,7 @@ function altSetGen() {
     let a = result.substring(0, 2), b = result.substring(2, 4)
     return `${a}.${b}`;
 }
-//Function  Repeater  for accuracy  check
+//Function  Repeater  for accuracy  check. DELETE WHEN FINISHED
 let funcRepeater = (times) => {
     for (; times > 0; times--) {
         console.log(altSetGen())
@@ -85,13 +85,16 @@ GAME START
 let startBtn = document.querySelector('[data-action]');
 let workspace = document.querySelector('.workspace');
 let callsign = document.querySelector('#callsign-input');
-let instrumentIndicators = document.querySelectorAll('[data-instrument]')
-let inputBox = document.querySelectorAll('[data-user-answer]')
+let instrumentIndicators = document.querySelectorAll('[data-instrument]');
+let inputBox = document.querySelectorAll('[data-user-answer]');
+
+//Game stats
+let timer = undefined; //GLOBAL timer... sets the length for the WHOLE game. Must be used for render at gamestart() and for result page at submitBtn
 let answerHistory = {
     correct: [],
     userInput: []
 };
-let timer = undefined; //GLOBAL timer... sets the length for the WHOLE game. Must be used for render at gamestart() and for result page at submitBtn
+let score = 0; //Have it declared inside result()
 
 function countDown() {
     let countdown = document.createElement('div')
@@ -187,21 +190,18 @@ function inputSubmit() { //captures user's input / answers
         "comm": undefined,
         "nav": undefined
     }
+    //get value from input and assign to userAnswer
+    inputBox.forEach(box => {
+        userAnswer[box.dataset.userAnswer] = box.value
+    })
+
     //push to answerHistory
+    answerHistory.userInput.push(userAnswer)
+    console.log(answerHistory)
+    //callback answerGen() || resultScreen()
+    answerGen();
+    //resultScreen();
 }
-
-//instrumentSetter()
-/*
-let inputTest = document.querySelector('input')
-inputTest.value="OLI"
-inputTest.readOnly = true;
-console.log(inputTest)
-*/
-
-
-
-
-
 
 
 //Need to makee  diferent funnction for the same btn depending  onn data-action
@@ -213,7 +213,7 @@ startBtn.addEventListener('click', () => {
             break;
         case "submit":
             console.log(`Submit answer`);
-            answerGen()
+            inputSubmit()
             break;
         case "menu":
             console.log(`Return to Main Menu`); //must set Instrument Span class Active
@@ -225,27 +225,3 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
-/*
-let testObjArr = []
-
-function objValueGen (num) {
-    let testObj = {
-        a: undefined,
-        b: undefined,
-        c: undefined
-    }
-    testObj.a = num;
-    testObj.b = num * num;
-    testObj.c =  num * num * num;
-    console.log(`Resultados para ${num}=`);
-    console.log(testObj)
-    testObjArr.push(testObj)
-}
-
-objValueGen(5)
-objValueGen(7)
-objValueGen(2)
-objValueGen(9)
-objValueGen(8)
-console.log(testObjArr)*/
-
