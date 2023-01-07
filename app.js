@@ -82,20 +82,39 @@ let funcRepeater = (times) => {
 /*########
 GAME START
 ##########*/
+let title = document.querySelector('h1');
 let startBtn = document.querySelector('[data-action]');
 let workspace = document.querySelector('.workspace');
 let callsign = document.querySelector('#callsign-input');
 let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
 
-//Game stats
-let timer = undefined; //GLOBAL timer... sets the length for the WHOLE game. Must be used for render at gamestart() and for result page at submitBtn
+//Game stadistics
+let roundLimit = undefined; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. THEN have a timer count.
 let answerHistory = {
     correct: [],
     userInput: []
 };
 let score = 0; //Have it declared inside result()
+let timeInterval, time; //time in minutes and second. STRING
 
+function stopWatch() {
+    let seconds = 0, minutes = 0;
+    timeInterval = setInterval(() => {
+        seconds++
+        if (seconds >= 60) { //adds left 0 on seconds
+            seconds = 0
+            minutes++
+        }
+        if (seconds <= 9) { //updates global time
+            time = `${minutes}:0${seconds}`
+        } else { time = `${minutes}:${seconds}` }
+        title.textContent = time;
+    }, 1000)
+}
+
+
+//COUNTDOWN before FIRST ROUND
 function countDown() {
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
@@ -113,14 +132,15 @@ function countDown() {
     }, 1000)
 }
 
-function gameStart() { //must have the whole game's timer about 1min or so
-    //TIMER var must be global. Timer ELEM has to be rendered HERE
-    startBtn.dataset.action = 'submit';
+//START ROUND 1
+function gameStart() {
     callsign.readOnly = true;
     console.log(`the game has  started booi`)
-    answerGen()
+    answerGen() //this actually starts the round 1
+    stopWatch() //starts stopwatch
 }
 
+//Round generator
 function answerGen() { //Generates the correct answers || will have timer about 5s or 10s
     let airspeed = document.querySelector('[data-instrument="airspeed"]');
     let altimeter = document.querySelector('[data-instrument="altimeter"]');
@@ -136,7 +156,7 @@ function answerGen() { //Generates the correct answers || will have timer about 
         comm: commGen(),
         nav: navGen()
     };
-    //push to answerHistory
+    //push to answerHistory.correct
     answerHistory.correct.push(correctAnswers);
 
     //render answers on screen
@@ -157,18 +177,26 @@ function answerGen() { //Generates the correct answers || will have timer about 
         input.classList.remove('active');
     })
 
-    //disable submit btn
-    startBtn.classList.add('disabled');
+    //Callback to MemotimerON()
+    memoTimerON()
+}
 
+//Memorization TIMER
+let memoTimer;
+let memoBar = document.createElement('div');
+memoBar.classList.add('timer-bar');
+
+function memoTimerON() {
+    startBtn.dataset.action = 'skip';
+    startBtn.textContent = 'skip'
 
     //render memorization timer
-    let memoTimer = document.createElement('div');
-    memoTimer.classList.add('timer-bar');
-    workspace.appendChild(memoTimer);
-    memoTimer.style.animationDuration = '5s';
+    let memoSec = 10000; //time set to memorize
+    workspace.appendChild(memoBar);
+    memoBar.style.animationDuration = `${memoSec / 1000}s`;
 
-    setTimeout(() => {
-        memoTimer.remove();
+    memoTimer = setTimeout(() => {
+        memoBar.remove();
         instrumentIndicators.forEach((indicator) => {
             indicator.classList.toggle('active');
         })
@@ -176,12 +204,27 @@ function answerGen() { //Generates the correct answers || will have timer about 
             input.classList.toggle('active');
             input.value = ''
         })
-        startBtn.classList.remove('disabled');
-    }, 5000);
-
+        startBtn.dataset.action = 'submit';
+        startBtn.textContent = 'submit'
+    }, memoSec);
 }
 
-function inputSubmit() { //captures user's input / answers
+function memoTimerOFF() {
+    clearTimeout(memoTimer);
+    memoBar.remove();
+    instrumentIndicators.forEach((indicator) => {
+        indicator.classList.toggle('active');
+    })
+    inputBox.forEach((input) => {
+        input.classList.toggle('active');
+        input.value = ''
+    })
+    startBtn.dataset.action = 'submit';
+    startBtn.textContent = 'submit'
+}
+
+//captures user's input / answers
+function inputSubmit() {
     let userAnswer = {
         "airspeed": undefined,
         "heading": undefined,
@@ -190,19 +233,19 @@ function inputSubmit() { //captures user's input / answers
         "comm": undefined,
         "nav": undefined
     }
+
     //get value from input and assign to userAnswer
     inputBox.forEach(box => {
         userAnswer[box.dataset.userAnswer] = box.value
     })
 
-    //push to answerHistory
+    //push to answerHistory.userInput
     answerHistory.userInput.push(userAnswer)
-    console.log(answerHistory)
+
     //callback answerGen() || resultScreen()
-    answerGen();
+    answerGen(); //triggers next round
     //resultScreen();
 }
-
 
 //Need to makee  diferent funnction for the same btn depending  onn data-action
 startBtn.addEventListener('click', () => {
@@ -210,6 +253,9 @@ startBtn.addEventListener('click', () => {
         case "start":
             console.log(`Start the game`);
             countDown()
+            break;
+        case "skip": //skips the memorization timer
+            memoTimerOFF()
             break;
         case "submit":
             console.log(`Submit answer`);
