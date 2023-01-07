@@ -90,12 +90,11 @@ let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
 
 //Game stadistics
-let roundLimit = undefined; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. THEN have a timer count.
+let roundLimit = 3; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. SET 3 FOR DEV
 let answerHistory = {
     correct: [],
     userInput: []
 };
-let score = 0; //Have it declared inside result()
 let timeInterval, time; //time in minutes and second. STRING
 
 function stopWatch() {
@@ -244,7 +243,21 @@ function inputSubmit() {
 
     //callback answerGen() || resultScreen()
     answerGen(); //triggers next round
-    //resultScreen();
+}
+
+function resultScreen() {
+    let score = 0; 
+    console.log('Showing Result  Screen')
+
+    //Variables
+
+    //set startBtn.dataset.action = 'menu'
+    //PLACEHOLDER startBtn.textContent = 'back to main menu'
+
+    //render result history
+    ////wrong answers must have the correct answer to the side
+
+    //render score and elapsed time
 }
 
 //Need to makee  diferent funnction for the same btn depending  onn data-action
@@ -271,3 +284,82 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
+let scoreTest = 0; //MUST UPDATE THHIS THING
+let arrTest = {
+    correct: [
+        { //{0}
+            a: 1,
+            b: 2,
+            c: 3,
+            d: 4
+        },
+        { //{1}
+            a: 1,
+            b: 2,
+            c: 3,
+            d: 4
+        },
+        { //{2}
+            a: 1,
+            b: 2,
+            c: 3,
+            d: 4
+        },
+        { //{3}
+            a: 1,
+            b: 2,
+            c: 3,
+            d: 4
+        }
+    ],
+    userInput: [
+        { //{0}
+            'a': '10',
+            'b': '2',
+            'c': '3',
+            'd': '20'
+        },
+        { //{1}
+            'a': '1',
+            'b': '9',
+            'c': '36',
+            'd': '41'
+        },
+        { //{2}
+            'a': '90',
+            'b': '88',
+            'c': '35',
+            'd': '20000'
+        },
+        { //{3}
+            'a': '1',
+            'b': '256',
+            'c': '300',
+            'd': '4'
+        },
+    ]
+};
+
+
+for (i = 0; i < arrTest.correct.length; i++) {
+    let keys = Object.keys(arrTest.correct[i]);
+    keys.forEach((key) => {
+        if (arrTest.correct[i][key] == arrTest.userInput[i][key]) {
+            scoreTest ++
+        }
+    })    
+};
+console.log(scoreTest)
+
+/* TEST RESULTS MUST BE:
+    {0} = 2 CORRECTS
+    {1} = 1 CORRECTS
+    {2} = 0 CORRECTS
+    {4} = 4 CORRECTS
+
+    scoreTest = 7
+
+Structure:
+arrTest = {[correct], [userInput]}
+correct||userInput = [{0}, {1}, {2}]
+*/

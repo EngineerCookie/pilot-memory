@@ -81,9 +81,137 @@
                 -->
             </div>
         </div>
-
-
     </main>
+    <dialog class="result-window">
+        <header>
+            <h2>Results</h2>
+            <ul>
+                <li>Score: <span>0</span></li>
+                <li>Time: <span>00:00</span></li>
+            </ul>
+        </header>
+        <section class="result-history">
+            <!-- 
+                EVERYTHING INSIDE THIS SECTION AND  BELOW THIS LINE MUST BE RENDERED BY JS resultScreen()
+            -->
+            <div data-history="0">
+                <!--data-history='(answerHistory index)'-->
+                <p data-result='airspeed' class="result-entry">airspeed:
+                    <span data-user-answer="airspeed">user</span>
+                    <span data-correct-answer='airspeed' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altimeter' class="result-entry">altimeter:
+                    <span data-user-answer="altimeter">user</span>
+                    <span data-correct-answer='altimeter' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altSet' class="result-entry">altset:
+                    <span data-user-answer="altSet">user</span>
+                    <span data-correct-answer='altSet' data-score="o|x">correct</span>
+                </p>
+                <p data-result='heading' class="result-entry">heading:
+                    <span data-user-answer="heading">user</span>
+                    <span data-correct-answer='heading' data-score="o|x">correct</span>
+                </p>
+                <p data-result='comm' class="result-entry">comm:
+                    <span data-user-answer="comm">user</span>
+                    <span data-correct-answer='comm' data-score="o|x">correct</span>
+                </p>
+                <p data-result='nav' class="result-entry">nav:
+                    <span data-user-answer="nav">user</span>
+                    <span data-correct-answer='nav' data-score="o|x">correct</span>
+                </p>
+            </div>
+            <div data-history="1">
+                <!--data-history='(answerHistory index)'-->
+                <p data-result='airspeed' class="result-entry">airspeed:
+                    <span data-user-answer="airspeed">user</span>
+                    <span data-correct-answer='airspeed' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altimeter' class="result-entry">altimeter:
+                    <span data-user-answer="altimeter">user</span>
+                    <span data-correct-answer='altimeter' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altSet' class="result-entry">altset:
+                    <span data-user-answer="altSet">user</span>
+                    <span data-correct-answer='altSet' data-score="o|x">correct</span>
+                </p>
+                <p data-result='heading' class="result-entry">heading:
+                    <span data-user-answer="heading">user</span>
+                    <span data-correct-answer='heading' data-score="o|x">correct</span>
+                </p>
+                <p data-result='comm' class="result-entry">comm:
+                    <span data-user-answer="comm">user</span>
+                    <span data-correct-answer='comm' data-score="o|x">correct</span>
+                </p>
+                <p data-result='nav' class="result-entry">nav:
+                    <span data-user-answer="nav">user</span>
+                    <span data-correct-answer='nav' data-score="o|x">correct</span>
+                </p>
+            </div>
+            <div data-history="2">
+                <!--data-history='(answerHistory index)'-->
+                <p data-result='airspeed' class="result-entry">airspeed:
+                    <span data-user-answer="airspeed">user</span>
+                    <span data-correct-answer='airspeed' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altimeter' class="result-entry">altimeter:
+                    <span data-user-answer="altimeter">user</span>
+                    <span data-correct-answer='altimeter' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altSet' class="result-entry">altset:
+                    <span data-user-answer="altSet">user</span>
+                    <span data-correct-answer='altSet' data-score="o|x">correct</span>
+                </p>
+                <p data-result='heading' class="result-entry">heading:
+                    <span data-user-answer="heading">user</span>
+                    <span data-correct-answer='heading' data-score="o|x">correct</span>
+                </p>
+                <p data-result='comm' class="result-entry">comm:
+                    <span data-user-answer="comm">user</span>
+                    <span data-correct-answer='comm' data-score="o|x">correct</span>
+                </p>
+                <p data-result='nav' class="result-entry">nav:
+                    <span data-user-answer="nav">user</span>
+                    <span data-correct-answer='nav' data-score="o|x">correct</span>
+                </p>
+            </div>
+        </section>
+        <section class="result-btn">
+            <button>Close</button>
+        </section>
+    </dialog>
 </body>
 
 </html>
+
+<!--  INDIVIDUAL  RESULT TEMPLATE
+            <div data-history="5">
+                !--data-history='(answerHistory index)'--
+                <p data-result='airspeed' class="result-entry">airspeed:
+                    <span data-user-answer="airspeed">user</span>
+                    <span data-correct-answer='airspeed' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altimeter' class="result-entry">altimeter:
+                    <span data-user-answer="altimeter">user</span>
+                    <span data-correct-answer='altimeter' data-score="o|x">correct</span>
+                </p>
+                <p data-result='altSet' class="result-entry">altset:
+                    <span data-user-answer="altSet">user</span>
+                    <span data-correct-answer='altSet' data-score="o|x">correct</span>
+                </p>
+                <p data-result='heading' class="result-entry">heading:
+                    <span data-user-answer="heading">user</span>
+                    <span data-correct-answer='heading' data-score="o|x">correct</span>
+                </p>
+                <p data-result='comm' class="result-entry">comm:
+                    <span data-user-answer="comm">user</span>
+                    <span data-correct-answer='comm' data-score="o|x">correct</span>
+                </p>
+                <p data-result='nav' class="result-entry">nav:
+                    <span data-user-answer="nav">user</span>
+                    <span data-correct-answer='nav' data-score="o|x">correct</span>
+                </p>
+            </div>
+
+    
+-->

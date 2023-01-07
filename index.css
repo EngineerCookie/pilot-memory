@@ -391,3 +391,81 @@ ATC MODE
 .atc-mode {
     color: white;
 }
+
+/*######
+RESULT WINDOW
+########*/
+.result-window {
+    width: clamp(300px, 100vw, 650px);
+    height: clamp(300px, 100vw, 650px);
+    padding: 0;
+    font-family: var(--ff);
+    border: hsl(var(--cmagenta-h), var(--cmagenta-s), var(--cmagenta-l))  solid 3px;
+}
+
+.result-window::backdrop {
+    pointer-events: none;
+}
+
+.result-window  > header {
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    height: 15%;
+    font-size: clamp(var(--fs-xs), 4vw, var(--fs-m));
+    padding: 5px;
+}
+
+.result-window  > header > h2 {
+    margin: 0;
+    font-size: clamp(var(--fs-s), 5vw, var(--fs-l));
+    text-transform: uppercase;
+    text-align: center;
+    color:hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
+}
+
+.result-window > header > ul {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
+}
+
+.result-window  > .result-history {
+    font-size: var(--fs-s);
+    background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
+    height:  75%;
+    display:  flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    /*display: grid;
+    grid-template-columns: repeat(3, 1fr);*/
+    overflow-y: auto;
+}
+
+[data-history] {
+    padding: 0 1rem;
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    color:hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    border: 2px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l))  solid;
+}
+
+.result-window  > .result-btn {
+    background-color: green;
+    height: 10%;
+}
+
+.result-window  > .result-btn >  button {
+    font-family: var(--ff);
+    font-size: var(--fs-s);
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    height:  100%;
+    width:  100%;
+    background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
+    padding: 0.5rem 1.5rem;
+    text-transform: uppercase;
+}
