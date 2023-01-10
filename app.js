@@ -70,14 +70,6 @@ function altSetGen() {
     let a = result.substring(0, 2), b = result.substring(2, 4)
     return `${a}.${b}`;
 }
-//Function  Repeater  for accuracy  check. DELETE WHEN FINISHED
-let funcRepeater = (times) => {
-    for (; times > 0; times--) {
-        console.log(altSetGen())
-    }
-}
-
-//funcRepeater(40)
 
 /*########
 GAME START
@@ -90,24 +82,27 @@ let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
 
 //Game stadistics
-let roundLimit = 3; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. SET 3 FOR DEV
+let roundLimit = 5; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. SET 3 FOR DEV
+
 let answerHistory = {
     correct: [],
     userInput: []
 };
+
 let timeInterval, time; //time in minutes and second. STRING
 
 function stopWatch() {
+    title.textContent = '00:00'
     let seconds = 0, minutes = 0;
     timeInterval = setInterval(() => {
         seconds++
-        if (seconds >= 60) { //adds left 0 on seconds
+        if (seconds >= 60) { //minute tracker
             seconds = 0
             minutes++
         }
-        if (seconds <= 9) { //updates global time
+        if (seconds <= 9) { //adds left 0 on seconds
             time = `${minutes}:0${seconds}`
-        } else { time = `${minutes}:${seconds}` }
+        } else { time = `${minutes}:${seconds}` } //updates global time
         title.textContent = time;
     }, 1000)
 }
@@ -118,7 +113,7 @@ function countDown() {
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
-    countTimer.textContent = 1 //Default 3. Change 1 for DEV
+    countTimer.textContent = 3 //Default 3. Change 1 for DEV
     countdown.appendChild(countTimer);
     workspace.appendChild(countdown)
 
@@ -134,13 +129,14 @@ function countDown() {
 //START ROUND 1
 function gameStart() {
     callsign.readOnly = true;
-    console.log(`the game has  started booi`)
+    console.log(`the game has  started booi`);
+    roundLimit = 3 //RESETS THE ROUND LIMIT
     answerGen() //this actually starts the round 1
     stopWatch() //starts stopwatch
 }
 
 //Round generator
-function answerGen() { //Generates the correct answers || will have timer about 5s or 10s
+function answerGen() { //Generates the correct answers
     let airspeed = document.querySelector('[data-instrument="airspeed"]');
     let altimeter = document.querySelector('[data-instrument="altimeter"]');
     let altSet = document.querySelector('[data-instrument="altSet"]');
@@ -175,6 +171,8 @@ function answerGen() { //Generates the correct answers || will have timer about 
     inputBox.forEach((input) => {
         input.classList.remove('active');
     })
+    //DEV ONLY answers to console.log
+    console.log(correctAnswers)
 
     //Callback to MemotimerON()
     memoTimerON()
@@ -208,7 +206,7 @@ function memoTimerON() {
     }, memoSec);
 }
 
-function memoTimerOFF() {
+function memoTimerOFF() { //memorization timer skip
     clearTimeout(memoTimer);
     memoBar.remove();
     instrumentIndicators.forEach((indicator) => {
@@ -224,14 +222,7 @@ function memoTimerOFF() {
 
 //captures user's input / answers
 function inputSubmit() {
-    let userAnswer = {
-        "airspeed": undefined,
-        "heading": undefined,
-        "altimeter": undefined,
-        "altSet": undefined,
-        "comm": undefined,
-        "nav": undefined
-    }
+    let userAnswer = {};
 
     //get value from input and assign to userAnswer
     inputBox.forEach(box => {
@@ -242,40 +233,97 @@ function inputSubmit() {
     answerHistory.userInput.push(userAnswer)
 
     //callback answerGen() || resultScreen()
-    answerGen(); //triggers next round
+    if (roundLimit == 1) {
+        resultScreen()
+    } else {
+        roundLimit--
+        answerGen(); //triggers next round
+    }
 }
 
 function resultScreen() {
-    let score = 0; 
-    console.log('Showing Result  Screen')
-
     //Variables
+    let score = 0;
+    function scoreCalc(answer, correct) { //to calculate score
+        if (answer == correct) {
+            score++
+            return 'correct'
+        } else { return 'wrong' }
+    }
 
-    //set startBtn.dataset.action = 'menu'
-    //PLACEHOLDER startBtn.textContent = 'back to main menu'
+    //Stop the stopwatch lel
+    clearInterval(timeInterval);
 
-    //render result history
-    ////wrong answers must have the correct answer to the side
+    //render elements; answer history, score calculation and right||wrong checker
+    let resultHistory = document.querySelector('.result-history');
+    for (i = 0; i < answerHistory.userInput.length; i++) {
+        let entry = document.createElement('div');
+        entry.setAttribute('data-history', i);
+        Object.keys(answerHistory.userInput[i]).forEach((key) => {
+            let entryText = document.createElement('p');
+            entryText.classList.add('result-entry');
+            //entryText.setAttribute('data-result', key);
+            entryText.setAttribute('data-score', scoreCalc(answerHistory.userInput[i][key], answerHistory.correct[i][key]));
+            entryText.textContent = `${key}: `;
 
-    //render score and elapsed time
+            let entryUser = document.createElement('span');
+            entryUser.setAttribute('data-user-answer', key);
+            entryUser.textContent = answerHistory.userInput[i][key];
+
+            let entryCorrect = document.createElement('span');
+            entryCorrect.setAttribute('data-correct-answer', key);
+            entryCorrect.textContent = answerHistory.correct[i][key];
+
+            entryText.appendChild(entryUser);
+            entryText.appendChild(entryCorrect);
+            entry.appendChild(entryText);
+
+        })
+        resultHistory.appendChild(entry);
+    }
+
+    //score and elapsed time
+    let scoreSpan = document.querySelector('[data-result-score]');
+    let timeSpan = document.querySelector('[data-result-time]');
+
+    scoreSpan.textContent = score;
+    timeSpan.textContent = time;
+
+    //open result window dialog
+    let resultScreen = document.querySelector('.result-window');
+    resultScreen.showModal();
+
+    //close btn
+    let btn = document.getElementById('result-close');
+    btn.addEventListener('click', () => {
+        resultScreen.close()
+    })
+
+    //Main menu restore
+    title.textContent = 'Pilot Memory Training (WIP)';
+    callsign.readOnly = false;
+    instrumentIndicators.forEach((indicator) => {
+        indicator.classList.add('active');
+    })
+    inputBox.forEach((input) => {
+        input.classList.remove('active');
+        input.value = ''
+    })
+    startBtn.dataset.action = 'start'
+    startBtn.textContent = 'start game'
 }
 
-//Need to makee  diferent funnction for the same btn depending  onn data-action
+//Multi-functional startBtn
 startBtn.addEventListener('click', () => {
     switch (startBtn.dataset.action) {
         case "start":
-            console.log(`Start the game`);
             countDown()
             break;
         case "skip": //skips the memorization timer
             memoTimerOFF()
             break;
         case "submit":
-            console.log(`Submit answer`);
             inputSubmit()
-            break;
-        case "menu":
-            console.log(`Return to Main Menu`); //must set Instrument Span class Active
             break;
         default:
             console.log(`Something wrong  with  the action btn`)
@@ -284,82 +332,3 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
-let scoreTest = 0; //MUST UPDATE THHIS THING
-let arrTest = {
-    correct: [
-        { //{0}
-            a: 1,
-            b: 2,
-            c: 3,
-            d: 4
-        },
-        { //{1}
-            a: 1,
-            b: 2,
-            c: 3,
-            d: 4
-        },
-        { //{2}
-            a: 1,
-            b: 2,
-            c: 3,
-            d: 4
-        },
-        { //{3}
-            a: 1,
-            b: 2,
-            c: 3,
-            d: 4
-        }
-    ],
-    userInput: [
-        { //{0}
-            'a': '10',
-            'b': '2',
-            'c': '3',
-            'd': '20'
-        },
-        { //{1}
-            'a': '1',
-            'b': '9',
-            'c': '36',
-            'd': '41'
-        },
-        { //{2}
-            'a': '90',
-            'b': '88',
-            'c': '35',
-            'd': '20000'
-        },
-        { //{3}
-            'a': '1',
-            'b': '256',
-            'c': '300',
-            'd': '4'
-        },
-    ]
-};
-
-
-for (i = 0; i < arrTest.correct.length; i++) {
-    let keys = Object.keys(arrTest.correct[i]);
-    keys.forEach((key) => {
-        if (arrTest.correct[i][key] == arrTest.userInput[i][key]) {
-            scoreTest ++
-        }
-    })    
-};
-console.log(scoreTest)
-
-/* TEST RESULTS MUST BE:
-    {0} = 2 CORRECTS
-    {1} = 1 CORRECTS
-    {2} = 0 CORRECTS
-    {4} = 4 CORRECTS
-
-    scoreTest = 7
-
-Structure:
-arrTest = {[correct], [userInput]}
-correct||userInput = [{0}, {1}, {2}]
-*/

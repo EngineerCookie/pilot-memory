@@ -177,7 +177,8 @@ PRIMARY FLIGHT DISPLAY
     user-select: none;
 }
 
-.instrument>input { /*Answer INPUT boxes*/
+.instrument>input {
+    /*Answer INPUT boxes*/
     display: none;
     max-width: inherit;
     text-align: center;
@@ -187,7 +188,8 @@ PRIMARY FLIGHT DISPLAY
     border: 1px lightgrey solid;
 }
 
-.instrument>span { /*Answer display boxes*/
+.instrument>span {
+    /*Answer display boxes*/
     display: none;
 }
 
@@ -366,7 +368,7 @@ GAME START ELEMS
 .timer-bar {
     position: absolute;
     width: 100%;
-    height:5px;
+    height: 5px;
     background-color: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
     inset: 0 0 auto 0;
     animation-name: timeBar;
@@ -374,7 +376,7 @@ GAME START ELEMS
 }
 
 @keyframes timeBar {
-    0%{
+    0% {
         width: 100%;
     }
 
@@ -400,29 +402,29 @@ RESULT WINDOW
     height: clamp(300px, 100vw, 650px);
     padding: 0;
     font-family: var(--ff);
-    border: hsl(var(--cmagenta-h), var(--cmagenta-s), var(--cmagenta-l))  solid 3px;
+    border: hsl(var(--cmagenta-h), var(--cmagenta-s), var(--cmagenta-l)) solid 3px;
 }
 
 .result-window::backdrop {
     pointer-events: none;
 }
 
-.result-window  > header {
+.result-window>header {
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     height: 15%;
     font-size: clamp(var(--fs-xs), 4vw, var(--fs-m));
     padding: 5px;
 }
 
-.result-window  > header > h2 {
+.result-window>header>h2 {
     margin: 0;
     font-size: clamp(var(--fs-s), 5vw, var(--fs-l));
     text-transform: uppercase;
     text-align: center;
-    color:hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
+    color: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
 }
 
-.result-window > header > ul {
+.result-window>header>ul {
     list-style: none;
     margin: 0;
     display: flex;
@@ -432,11 +434,11 @@ RESULT WINDOW
     color: hsl(var(--cyellow-h), var(--cyellow-s), var(--cyellow-l));
 }
 
-.result-window  > .result-history {
+.result-window>.result-history {
     font-size: var(--fs-s);
     background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
-    height:  75%;
-    display:  flex;
+    height: 75%;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
@@ -450,21 +452,44 @@ RESULT WINDOW
 [data-history] {
     padding: 0 1rem;
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
-    color:hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
-    border: 2px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l))  solid;
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    border: 2px hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l)) solid;
+    min-width: 250px;
 }
 
-.result-window  > .result-btn {
-    background-color: green;
+.result-entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: capitalize;
+}
+
+[data-score='correct']>[data-correct-answer] {
+    display: none;
+}
+
+[data-score='wrong']>[data-user-answer] {
+    color: hsl(var(--cred-h), var(--cred-s), var(--cred-l))
+}
+
+[data-score='wrong']>[data-correct-answer] {
+    color: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
+    padding: 0 0.5rem;
+}
+
+
+.result-window>.result-btn {
+    background-color: hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l));
     height: 10%;
 }
 
-.result-window  > .result-btn >  button {
+#result-close {
     font-family: var(--ff);
     font-size: var(--fs-s);
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
-    height:  100%;
-    width:  100%;
+    height: 100%;
+    width: 100%;
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     padding: 0.5rem 1.5rem;
     text-transform: uppercase;
