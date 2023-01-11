@@ -332,3 +332,34 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
+//Difficulty Setting
+/*
+Difficulty setting will only show  certain  instruments.
+
+Easy: airspeed, altimeter, headin
+Normal: airspeed, altimeter, heading, altset
+Hard: airspeed, altimeter, heading, altset, comm
+All: airspeed, altimeter, heading, altset, comm, nav
+
+
+All-mode will recommend  note-taking.
+
+*/
+let difficultyTest =  {
+    easy: ['airspeed', 'altimeter', 'heading'],
+    normal: ['airspeed', 'altimeter', 'heading', 'altset'],
+    hard: ['airspeed', 'altimeter', 'heading', 'altset', 'comm'],
+    all: ['airspeed', 'altimeter', 'heading', 'altset', 'comm', 'nav']
+}
+
+/*
+If I were to use this,  I will need to change answerGen() where:
+    - I need a  function that will get the values inside de difficultyARR and Map them against each generator
+    - correctAnswers must be empty. the function above must update this object.
+    - instrumentIndicators must only show those inside the difficultyARR. The ones not mentioned must remain hidden.
+    - inputBox render must happen in inputSubmit().
+
+changes in inputSubmit():
+    - inputBox render  must happen in this function.
+    - difficultyARR must map each inputBox and activated only those present. Those not mentioned must remain hidden.
+*/
