@@ -77,18 +77,47 @@ GAME START
 let title = document.querySelector('h1');
 let startBtn = document.querySelector('[data-action]');
 let workspace = document.querySelector('.workspace');
+let setting = document.querySelector('.setting');
 let callsign = document.querySelector('#callsign-input');
 let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
 
 //Game stadistics
-let roundLimit = 5; //Set game limit by stages. Ie. 10 rounds, 5 rounds, etc. SET 3 FOR DEV
+let roundLimit; //This is set in gameStart()
 
 let answerHistory = {
     correct: [],
     userInput: []
 };
 
+/////settings: difficulty
+let difficultySetting = {
+    easy: ['airspeed', 'altimeter', 'heading'],
+    normal: ['airspeed', 'altimeter', 'heading', 'altSet'],
+    hard: ['airspeed', 'altimeter', 'heading', 'altSet', 'comm'],
+    all: ['airspeed', 'altimeter', 'heading', 'altSet', 'comm', 'nav']
+}
+let activeInstrument = ['airspeed', 'altimeter', 'heading', 'altSet', 'comm', 'nav'];
+let difficultySelection = document.querySelectorAll('[data-difficulty]');
+difficultySelection.forEach((option) => {
+    option.addEventListener('click', () => {
+        if (option.checked === true) {
+            activeInstrument = [...difficultySetting[option.dataset.difficulty]]
+            instrumentIndicators.forEach((indicator) => {
+                indicator.classList.add('disable');
+                if (activeInstrument.indexOf(indicator.dataset.instrument) >= 0) {
+                    indicator.classList.remove('disable')
+                }
+            });
+            inputBox.forEach((input) => {
+                input.classList.add('disable');
+                if (activeInstrument.indexOf(input.dataset.userAnswer) >= 0) {
+                    input.classList.remove('disable')
+                }
+            });
+        }
+    })
+})
 let timeInterval, time; //time in minutes and second. STRING
 
 function stopWatch() {
@@ -110,6 +139,7 @@ function stopWatch() {
 
 //COUNTDOWN before FIRST ROUND
 function countDown() {
+    setting.classList.remove('active');
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
@@ -128,9 +158,10 @@ function countDown() {
 
 //START ROUND 1
 function gameStart() {
+    let roundSelect = document.querySelector('[data-round]:checked');
+    roundLimit = roundSelect.dataset.round //SETS THE ROUND LIMIT
+    console.log(roundLimit)
     callsign.readOnly = true;
-    console.log(`the game has  started booi`);
-    roundLimit = 3 //RESETS THE ROUND LIMIT
     answerGen() //this actually starts the round 1
     stopWatch() //starts stopwatch
 }
@@ -143,28 +174,44 @@ function answerGen() { //Generates the correct answers
     let heading = document.querySelector('[data-instrument="heading"]');
     let comm = document.querySelector('[data-instrument="comm"]');
     let nav = document.querySelector('[data-instrument="nav"]');
-    let correctAnswers = {
-        airspeed: airspeedGen(),
-        heading: headingGen(),
-        altimeter: altitudeGen(),
-        altSet: altSetGen(),
-        comm: commGen(),
-        nav: navGen()
-    };
+    let correctAnswers = {};
+
+    activeInstrument.forEach((instrument) => {
+        switch (instrument) {
+            case 'airspeed':
+                correctAnswers.airspeed = airspeedGen();
+                airspeed.textContent = correctAnswers.airspeed;
+                break;
+            case 'altimeter':
+                let regex = /([0-9]+)([0-9]{3})/;
+                correctAnswers.altimeter = altitudeGen();
+                let altFormat = correctAnswers.altimeter.toString().match(regex);
+                altimeter.innerHTML = `${altFormat[1]}<sup>${altFormat[2]}</sup>`;
+                break;
+            case 'heading':
+                correctAnswers.heading = headingGen();
+                heading.textContent = correctAnswers.heading;
+                break;
+            case 'altSet':
+                correctAnswers.altSet = altSetGen();
+                altSet.textContent = correctAnswers.altSet;
+                break;
+            case 'comm':
+                correctAnswers.comm =  commGen();
+                comm.textContent = correctAnswers.comm;
+                break;
+            case 'nav':
+                correctAnswers.nav  = navGen();
+                nav.textContent = correctAnswers.nav;
+                break;
+            default:
+                console.log('something went wrong with answerGen');
+        }
+    })
+
     //push to answerHistory.correct
     answerHistory.correct.push(correctAnswers);
-
     //render answers on screen
-    let regex = /([0-9]+)([0-9]{3})/;
-    let altFormat = correctAnswers.altimeter.toString().match(regex);
-
-    airspeed.textContent = correctAnswers.airspeed;
-    altimeter.innerHTML = `${altFormat[1]}<sup>${altFormat[2]}</sup>`;
-    altSet.textContent = correctAnswers.altSet;
-    heading.textContent = correctAnswers.heading;
-    comm.textContent = correctAnswers.comm;
-    nav.textContent = correctAnswers.nav;
-
     instrumentIndicators.forEach((indicator) => {
         indicator.classList.add('active');
     })
@@ -172,7 +219,7 @@ function answerGen() { //Generates the correct answers
         input.classList.remove('active');
     })
     //DEV ONLY answers to console.log
-    console.log(correctAnswers)
+    //console.log(correctAnswers)
 
     //Callback to MemotimerON()
     memoTimerON()
@@ -256,10 +303,10 @@ function resultScreen() {
 
     //render elements; answer history, score calculation and right||wrong checker
     let resultHistory = document.querySelector('.result-history');
-    for (i = 0; i < answerHistory.userInput.length; i++) {
+    for (i = 0; i < answerHistory.correct.length; i++) {
         let entry = document.createElement('div');
         entry.setAttribute('data-history', i);
-        Object.keys(answerHistory.userInput[i]).forEach((key) => {
+        Object.keys(answerHistory.correct[i]).forEach((key) => {
             let entryText = document.createElement('p');
             entryText.classList.add('result-entry');
             //entryText.setAttribute('data-result', key);
@@ -300,8 +347,9 @@ function resultScreen() {
     })
 
     //Main menu restore
-    title.textContent = 'Pilot Memory Training (WIP)';
+    title.textContent = 'Pilot Memory Training';
     callsign.readOnly = false;
+    setting.classList.add('active')
     instrumentIndicators.forEach((indicator) => {
         indicator.classList.add('active');
     })
@@ -332,34 +380,4 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
-//Difficulty Setting
-/*
-Difficulty setting will only show  certain  instruments.
-
-Easy: airspeed, altimeter, headin
-Normal: airspeed, altimeter, heading, altset
-Hard: airspeed, altimeter, heading, altset, comm
-All: airspeed, altimeter, heading, altset, comm, nav
-
-
-All-mode will recommend  note-taking.
-
-*/
-let difficultyTest =  {
-    easy: ['airspeed', 'altimeter', 'heading'],
-    normal: ['airspeed', 'altimeter', 'heading', 'altset'],
-    hard: ['airspeed', 'altimeter', 'heading', 'altset', 'comm'],
-    all: ['airspeed', 'altimeter', 'heading', 'altset', 'comm', 'nav']
-}
-
-/*
-If I were to use this,  I will need to change answerGen() where:
-    - I need a  function that will get the values inside de difficultyARR and Map them against each generator
-    - correctAnswers must be empty. the function above must update this object.
-    - instrumentIndicators must only show those inside the difficultyARR. The ones not mentioned must remain hidden.
-    - inputBox render must happen in inputSubmit().
-
-changes in inputSubmit():
-    - inputBox render  must happen in this function.
-    - difficultyARR must map each inputBox and activated only those present. Those not mentioned must remain hidden.
-*/
+    

@@ -56,20 +56,19 @@ body {
 }
 
 body>h1 {
-    margin: 0;
-    padding-top: 2rem;
     text-align: center;
+    height: max-content;
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
 }
 
 
 .workspace {
-    position: absolute;
     font-family: var(--ff);
     height: max-content;
     width: max-content;
     inset: 0;
     margin: auto;
+    position: relative;
 }
 
 
@@ -136,7 +135,6 @@ PRIMARY FLIGHT DISPLAY
 
 .altimeter>span>sup {
     font-size: clamp(var(--fs-xs), 4vw, var(--fs-m));
-    /*font-size: var(--fs-m);*/
 }
 
 .alt-setting {
@@ -201,6 +199,9 @@ PRIMARY FLIGHT DISPLAY
     display: block;
 }
 
+.instrument>input.disable, .instrument>span.disable {
+    display: none !important;
+}
 
 #callsign-input {
     display: block;
@@ -232,9 +233,58 @@ BUTTON CONTAINER
 }
 
 .setting {
-    height: 70%;
-    background-color: lavender;
+    width: 100%;
+    padding: 0.5rem;
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    margin-bottom: 0.5rem;
+    user-select: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: clamp(var(--fs-xs), 4vw, var(--fs-s));
+    display: none; /*Toggle from none - flex*/
+}
+
+.setting.active {
+    display: flex;
+}
+
+@media (max-width: 360px) {
+    .setting {
+        flex-direction: column;
+    }
+}
+
+.setting-container > p {
+    margin: 0.5rem 0;
+}
+
+.setting-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+
+.setting-options {
+    display: flex;
+    flex-direction: row;
+}
+
+.setting-options > label > input{
     display: none;
+}
+
+.setting-options > label > span {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.setting-options > label > input:checked ~ span {
+    border: solid hsl(var(--cgreen-h), var(--cgreen-s), var(--cgreen-l)) 1px;
 }
 
 .num-pad {
@@ -297,8 +347,6 @@ BUTTON CONTAINER
     bottom: 15%;
     border-radius: 15px;
 }
-
-
 
 .btn-action>button {
     font-family: var(--ff);
@@ -493,4 +541,5 @@ RESULT WINDOW
     background-color: hsl(var(--cblack-h), var(--cblack-s), var(--cblack-l));
     padding: 0.5rem 1.5rem;
     text-transform: uppercase;
+    cursor: pointer;
 }

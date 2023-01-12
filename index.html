@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h1>Pilot Memory Training (WIP)</h1>
+    <h1>Pilot Memory Training</h1>
     <main class="workspace">
         <!-- CAPTION MUST BE ON TOP OF EVERYTHING ABSOLUTELY
         <div class="atc-mode">ATCMODE</div>
@@ -70,15 +70,52 @@
                 <button class="num-key k-num">0</button>
                 <button class="num-key k-action">clr</button>
             </div>
-            <!--PLACEHOLDERL: DIFICULTY SETTINGS-->
-            <div class="setting">
-
+            <div class="setting active">
+                <div class="setting-container">
+                    <p>Select Difficulty:</p>
+                    <div class="setting-options">
+                        <label>
+                            <input autocomplete="off" type="radio" name="difficulty" data-difficulty="easy">
+                            <span>Easy</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="difficulty" data-difficulty="normal">
+                            <span>Normal</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="difficulty" data-difficulty="hard">
+                            <span>Hard</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="difficulty" data-difficulty="all" checked>
+                            <span>All</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-container">
+                    <p>Rounds:</p>
+                    <div class="setting-options">
+                        <label>
+                            <input autocomplete="off" type="radio" name="round" data-round="1">
+                            <span>1</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="round" data-round="3">
+                            <span>3</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="round" data-round="5" checked>
+                            <span>5</span>
+                        </label>
+                        <label>
+                            <input autocomplete="off" type="radio" name="round" data-round="10">
+                            <span>10</span>
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class='btn-action'>
                 <button data-action="start">start game</button>
-                <!--
-                data-action must change depending on phase. I.e. 'Start' for game start; 'Submit' for answer submition; 'menu' to go back to main menu; etc. This must also change the text content.
-                -->
             </div>
         </div>
     </main>
