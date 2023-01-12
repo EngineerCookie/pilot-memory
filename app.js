@@ -380,4 +380,24 @@ startBtn.addEventListener('click', () => {
 
 
 /*WORKSHOP*/
-    
+/*
+    ATC MODE NOTES
+- ATC memoTimerON() starts the moment it start speaking and ends the instant the voice stops. It can't be skipped.
+- During memoTimerON(), no  instrument will be shown.
+- Evaluate if you want to allow inputBox active during speaking.
+- Must detect and repeat callsign upon every answerGen().
+- Every letter must be phonetic and said individually.
+- Callsign must be able to distinguish common airline callsign. I.e. COPA 1-2-3 instead of Charlie Oscar Papa Alpha 1-2-3.
+- Must have different order and style for each instrument information.
+- Must follow correct ATC structure:
+    - Callsign must be the first thing said.
+    - Airspeed is said completly, and specify 'maintain' at the start and 'knots' at the end.
+    - Altitude must depict 'thousands' and 'hundred' feets.
+    - Altitude can either be 'climb and maintain' or 'decend and mantain'.
+    - Altimeter setting is always right after altitude.
+    - Altimeter setting has to be said number by number. Decimal separation must be said as either 'point' or 'decimal'.
+    - Heading must start  with 'heading' before saying the number.
+    - Heading has to be said number by number,  including any left-side zeroes (0).
+    - Heading can be said as 'North, 'East', 'South', or 'West' instead of their corresponding cardinal number.
+    - Comm and Nav must be said number by number. Decimal sparation must be said as eitheer 'point' or 'decimal'
+*/
