@@ -1,0 +1,53 @@
+{
+    "phonetic": {
+        "a": "alpha",
+        "b": "bravo",
+        "c": "charlie",
+        "d": "delta",
+        "e": "echo",
+        "f": "foxtrot",
+        "g": "golf",
+        "h": "hotel",
+        "i": "india",
+        "j": "juliet",
+        "k": "kilo",
+        "l": "lima",
+        "m": "mike",
+        "n": "november",
+        "o": "oscar",
+        "p": "papa",
+        "q": "qebec",
+        "r": "romeo",
+        "s": "sierra",
+        "t": "tango",
+        "u": "uniform",
+        "v": "victor",
+        "w": "whiskey",
+        "x": "x-ray",
+        "y": "yankee",
+        "z": "zulu",
+        "9": "niner",
+        ".": ["point", "decimal"]
+    },
+    "cardinal": {
+        "360": "north",
+        "090": "east",
+        "180": "south",
+        "270": "west"
+    },
+    "airline": {
+        "cmp": "copa",
+        "aal": "american",
+        "aca": "air canada",
+        "dal": "delta",
+        "ual": "united",
+        "amx": "aeromexico",
+        "cca": "air china",
+        "eva": "eva",
+        "baw": "speedbird",
+        "ava": "avianca",
+        "jbu": "jetblue",
+        "dlh": "lufthansa",
+        "swa": "southwest"
+    }
+}

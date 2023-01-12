@@ -1,9 +1,10 @@
 //TEXT TO SPEECH FOR ATC MODE
 /*
-let atc = 'COPA one two three, maintain 150 knots, climb and maintain one three thousand feet altimeter setting two niner niner five, heading three six zero. Contact approach one two two point six. Vee Oh R frequency one one seven point one. '
+let atc = 'COPA one two three, maintain 150 knots, climb and maintain one three thousand feet altimeter setting two niner niner five, heading three six zero. Contact approach one two two point six. Vee Oh R frequency one one seven point one. '*/
+/*let atc ='northeast';
 let msg = new SpeechSynthesisUtterance(atc);
-window.speechSynthesis.speak(msg)
-*/
+window.speechSynthesis.speak(msg);
+
 
 /*#######
 RANDOM GENERATORS
@@ -20,12 +21,6 @@ function altitudeGen() {
 
 function headingGen() {
     let result = (Math.ceil((Math.random() * 72))) * 5;
-    let cardinals = {
-        '360': 'North',
-        '090': 'East',
-        '180': 'South',
-        '270': 'West'
-    }
     switch (result.toString().length) {
         case 1:
             result = result.toString().split('');
@@ -211,6 +206,9 @@ function answerGen() { //Generates the correct answers
 
     //push to answerHistory.correct
     answerHistory.correct.push(correctAnswers);
+
+    //ATC MODE: do not render answer on screen. Script for ATC must be  made HERE. Have it use correctAnswers obj and it will have the difficulty integrarted  alreeady
+
     //render answers on screen
     instrumentIndicators.forEach((indicator) => {
         indicator.classList.add('active');
@@ -231,14 +229,17 @@ let memoBar = document.createElement('div');
 memoBar.classList.add('timer-bar');
 
 function memoTimerON() {
-    startBtn.dataset.action = 'skip';
-    startBtn.textContent = 'skip'
-
+    
     //render memorization timer
     let memoSec = 10000; //time set to memorize
     workspace.appendChild(memoBar);
     memoBar.style.animationDuration = `${memoSec / 1000}s`;
+    
+    //ATC MODE: Insert function for ATC. When ATC is active, startBtn.dataset.action changes to 'submit' and is disabled until ATC finished.
+    startBtn.dataset.action = 'skip';
+    startBtn.textContent = 'skip'
 
+    //ATC MODE: instrumentIndicators never activates. Must have setTimeout when ATC is finished.
     memoTimer = setTimeout(() => {
         memoBar.remove();
         instrumentIndicators.forEach((indicator) => {
@@ -381,13 +382,14 @@ startBtn.addEventListener('click', () => {
 
 /*WORKSHOP*/
 /*
-    ATC MODE NOTES
+    ATC MODE NOTES.
+- Must work in accordance with selected difficulty.
 - ATC memoTimerON() starts the moment it start speaking and ends the instant the voice stops. It can't be skipped.
 - During memoTimerON(), no  instrument will be shown.
 - Evaluate if you want to allow inputBox active during speaking.
 - Must detect and repeat callsign upon every answerGen().
 - Every letter must be phonetic and said individually.
-- Callsign must be able to distinguish common airline callsign. I.e. COPA 1-2-3 instead of Charlie Oscar Papa Alpha 1-2-3.
+- Callsign must be able to distinguish common airline callsign. I.e. COPA 1-2-3 instead of Charlie Mike Papa 1-2-3.
 - Must have different order and style for each instrument information.
 - Must follow correct ATC structure:
     - Callsign must be the first thing said.
@@ -400,4 +402,8 @@ startBtn.addEventListener('click', () => {
     - Heading has to be said number by number,  including any left-side zeroes (0).
     - Heading can be said as 'North, 'East', 'South', or 'West' instead of their corresponding cardinal number.
     - Comm and Nav must be said number by number. Decimal sparation must be said as eitheer 'point' or 'decimal'
+
+
+AND FINALLY!
+Whateever process that needs to be done, must be done AFTER generating the answers and must use those same  answers. THIS CANNOT USE ANY GEN() FUNCTION
 */
