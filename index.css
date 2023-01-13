@@ -230,13 +230,13 @@ BUTTON CONTAINER
     justify-content: center;
     background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
     height: max-content;
+    gap: 1rem;
 }
 
 .setting {
     width: 100%;
     padding: 0.5rem;
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
-    margin-bottom: 0.5rem;
     user-select: none;
     flex-direction: row;
     align-items: center;
@@ -433,13 +433,29 @@ GAME START ELEMS
     }
 }
 
-
-
 /*######
 ATC MODE
 ########*/
 .atc-mode {
-    color: white;
+    color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    display: block;
+}
+
+.atc-mode > input {
+    display: none;
+}
+
+.atc-mode > span {
+    padding: 0.5rem; 
+}
+
+.atc-mode>input:checked ~ span {
+    --cbgrey-l: 10%;
+    border: solid 3px hsl(var(--cmagenta-h), var(--cmagenta-s), var(--cmagenta-l));
+    background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
 }
 
 /*######
