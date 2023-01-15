@@ -1,9 +1,3 @@
-//TEXT TO SPEECH FOR ATC MODE
-/*let atcTest = 'COPA one two three, maintain 150 knots, climb and maintain one three thousand feet altimeter setting two niner niner five, heading three six zero. Contact approach one two two point six. Vee Oh R frequency one one seven point one. '
-//let atc ='northeast';
-let msg = new SpeechSynthesisUtterance(atcTest);
-window.speechSynthesis.speak(msg);*/
-
 /*#######
 RANDOM GENERATORS
 #########*/
@@ -34,9 +28,7 @@ function headingGen() {
         case 3:
             break;
     }
-    /*if (cardinals.hasOwnProperty(result)) { //THIS IS FOR ATC MODE
-        result = cardinals[result];
-    }*/
+
     return result;
 }
 
@@ -145,11 +137,10 @@ let atc = await getData('./atc.json');
 function countDown() {
     setting.classList.remove('active');
     atcMode.classList.remove('active');
-    numPad.classList.add('active');
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
-    countTimer.textContent = 1 //Default 3. Change 1 for DEV
+    countTimer.textContent = 3 //Default 3. Change 1 for DEV
     countdown.appendChild(countTimer);
     workspace.appendChild(countdown)
 
@@ -199,7 +190,6 @@ function answerGen() { //Generates the correct answers
                 break;
             case 'altSet':
                 correctAnswers.altSet = altSetGen();
-                correctAnswers.altSet = `29.99`
                 altSet.textContent = correctAnswers.altSet;
                 break;
             case 'comm':
@@ -452,7 +442,6 @@ function resultScreen() {
     title.textContent = 'Pilot Memory Training';
     callsign.readOnly = false;
     setting.classList.add('active');
-    numPad.classList.remove('active');
     instrumentIndicators.forEach((indicator) => {
         indicator.classList.add('active');
     })
@@ -480,10 +469,3 @@ startBtn.addEventListener('click', () => {
             console.log(`Something wrong  with  the action btn`)
     }
 })
-
-//numpad buttons
-let numkey = document.querySelectorAll('[data-numkey]');
-
-
-
-/*WORKSHOP*/

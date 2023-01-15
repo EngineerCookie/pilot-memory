@@ -583,3 +583,21 @@ RESULT WINDOW
     text-transform: uppercase;
     cursor: pointer;
 }
+
+/*#######
+FOOTER
+#########*/
+
+footer{
+    color:hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
+    font-family: var(--ff);
+    text-align: center;
+    user-select: none;
+}
+
+footer>p>a {
+    text-decoration: none;
+}
+
+footer>p>a:visited {
+color: inherit}
