@@ -76,6 +76,7 @@ let setting = document.querySelector('.setting');
 let callsign = document.querySelector('#callsign-input');
 let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
+let atcMode = document.querySelector('[data-atc]')
 
 //Game stadistics
 let roundLimit; //This is set in gameStart()
@@ -131,6 +132,12 @@ function stopWatch() {
     }, 1000)
 }
 
+//ATC Json
+async function getData(url) {
+    const response = await fetch(url);
+    return response.json();
+}
+let atc = await getData('./atc.json');
 
 //COUNTDOWN before FIRST ROUND
 function countDown() {
@@ -138,7 +145,7 @@ function countDown() {
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
-    countTimer.textContent = 3 //Default 3. Change 1 for DEV
+    countTimer.textContent = 1 //Default 3. Change 1 for DEV
     countdown.appendChild(countTimer);
     workspace.appendChild(countdown)
 
@@ -155,7 +162,6 @@ function countDown() {
 function gameStart() {
     let roundSelect = document.querySelector('[data-round]:checked');
     roundLimit = roundSelect.dataset.round //SETS THE ROUND LIMIT
-    console.log(roundLimit)
     callsign.readOnly = true;
     answerGen() //this actually starts the round 1
     stopWatch() //starts stopwatch
@@ -189,6 +195,7 @@ function answerGen() { //Generates the correct answers
                 break;
             case 'altSet':
                 correctAnswers.altSet = altSetGen();
+                correctAnswers.altSet = `29.99`
                 altSet.textContent = correctAnswers.altSet;
                 break;
             case 'comm':
@@ -208,6 +215,74 @@ function answerGen() { //Generates the correct answers
     answerHistory.correct.push(correctAnswers);
 
     //ATC MODE: do not render answer on screen. Script for ATC must be  made HERE. Have it use correctAnswers obj and it will have the difficulty integrarted  alreeady
+    if (atcMode.checked == true) {
+        let callsign = document.querySelector('[data-callsign]').value.replace(/\s/g, '');
+        let correctKeys = Object.keys(correctAnswers).sort(keySort);
+        function keySort(a, b) { //from https://stackoverflow.com/questions/53591691/sorting-an-array-in-random-order
+            return 0.5 - Math.random()
+        }
+        let message ='';
+        correctKeys.unshift('callsign'); //make sure callsign is always first
+        correctKeys.forEach((key) => { //message constructor
+            switch(key){
+                case 'callsign':
+                    let regexA = /([A-Za-z]+)-*([0-9]+)-*([A-Za-z]*[0-9]*)*/;
+                    let matchA = callsign.match(regexA);
+                    let arrA = Object.keys(atc.airline);
+                    if (arrA.indexOf(matchA[1]) >= 0){
+                        message += `${atc.airline[matchA[1]]} `;
+                    } else {
+                        let splitA = matchA[1].split('');
+                        splitA.forEach(letter => {
+                            message += `${atc.phonetic[letter.toLowerCase()]} `
+                        })
+                    }
+                    message += `${matchA[2].split('').join(' ')} `;
+                    if (matchA[3] != '') {
+                        let splitB = matchA[3].split('');
+                        splitB.forEach(letter => {
+                            message += `${atc.phonetic[letter.toLowerCase()]} `
+                        })
+                    }
+                    message += '; '
+                    break;
+                case 'airspeed':
+                    message += `maintain ${correctAnswers.airspeed} knots; `
+                    break;
+                case 'altimeter':
+                    let altitudeATC = ['descent and maintain', 'climb and maintain'];
+                    message += `${altitudeATC[Math.floor(Math.random() * altitudeATC.length)]} ${correctAnswers.altimeter} feet; `
+                    break;
+                case 'altSet':
+                    message += `altimeter setting ${correctAnswers.altSet.split('').join('  ')} ; `
+                    break;
+                case 'heading':
+                    let arrB = Object.keys(atc.cardinal);
+                    //cardinal replacer north, east, south, west
+                    if (arrB.indexOf(correctAnswers.heading.toString()) >= 0 && Math.floor(Math.random() * 3) >= 1) {
+                        message += `fly ${atc.cardinal[correctAnswers.heading]}bound; `
+                    } else {
+                        message += `fly heading ${correctAnswers.heading.toString().split('').join(' ')} ; `
+                    }
+                    break;
+                case 'comm':
+                    let commATC = ['approach', 'radio', 'control', 'traffic', ''];
+                    message += `contact ${commATC[Math.floor(Math.random() * commATC.length)]} ${correctAnswers.comm.split('').join(' ')} ; `
+                    break;
+                case 'nav':
+                    message += `closest Vee Oh R frequency ${correctAnswers.nav.split(''). join(' ')} ; `
+                    break;
+                default:
+                    console.log('something wrong with atc-keys')
+            }
+        })
+        //message checker for DEV
+        message = message.replace(/ 9 /g, atc.phonetic["9"]);
+        message = message.replace(/ \. /g, atc.phonetic["point"][Math.floor(Math.random() * atc.phonetic['point'].length)])
+        let atcComm = new SpeechSynthesisUtterance(message);
+        window.speechSynthesis.speak(atcComm);
+        console.log(message)
+    }
 
     //render answers on screen
     instrumentIndicators.forEach((indicator) => {
@@ -217,7 +292,7 @@ function answerGen() { //Generates the correct answers
         input.classList.remove('active');
     })
     //DEV ONLY answers to console.log
-    //console.log(correctAnswers)
+    console.log(correctAnswers)
 
     //Callback to MemotimerON()
     memoTimerON()
@@ -229,13 +304,11 @@ let memoBar = document.createElement('div');
 memoBar.classList.add('timer-bar');
 
 function memoTimerON() {
-    
     //render memorization timer
     let memoSec = 10000; //time set to memorize
     workspace.appendChild(memoBar);
     memoBar.style.animationDuration = `${memoSec / 1000}s`;
     
-    //ATC MODE: Insert function for ATC. When ATC is active, startBtn.dataset.action changes to 'submit' and is disabled until ATC finished.
     startBtn.dataset.action = 'skip';
     startBtn.textContent = 'skip'
 
@@ -267,6 +340,12 @@ function memoTimerOFF() { //memorization timer skip
     startBtn.dataset.action = 'submit';
     startBtn.textContent = 'submit'
 }
+
+function atcSpeaking() { //Memotimer but for ATC Mode
+
+}
+
+
 
 //captures user's input / answers
 function inputSubmit() {

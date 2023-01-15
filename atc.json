@@ -26,8 +26,8 @@
         "x": "x-ray",
         "y": "yankee",
         "z": "zulu",
-        "9": "niner",
-        ".": ["point", "decimal"]
+        "9": " niner ",
+        "point": [" point ", " decimal "]
     },
     "cardinal": {
         "360": "north",
