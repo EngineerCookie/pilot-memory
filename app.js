@@ -74,6 +74,7 @@ let setting = document.querySelector('.setting');
 let callsign = document.querySelector('#callsign-input');
 let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
+let numPad = document.querySelector('.num-pad')
 let atcMode = document.querySelector('[data-atc]');
 
 //stops atcComm if page refresh;
@@ -143,7 +144,8 @@ let atc = await getData('./atc.json');
 //COUNTDOWN before FIRST ROUND
 function countDown() {
     setting.classList.remove('active');
-    atcMode.classList.remove('active')
+    atcMode.classList.remove('active');
+    numPad.classList.add('active');
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
@@ -449,7 +451,8 @@ function resultScreen() {
     atcMode.classList.add('active')
     title.textContent = 'Pilot Memory Training';
     callsign.readOnly = false;
-    setting.classList.add('active')
+    setting.classList.add('active');
+    numPad.classList.remove('active');
     instrumentIndicators.forEach((indicator) => {
         indicator.classList.add('active');
     })
@@ -478,31 +481,9 @@ startBtn.addEventListener('click', () => {
     }
 })
 
+//numpad buttons
+let numkey = document.querySelectorAll('[data-numkey]');
+
+
 
 /*WORKSHOP*/
-/*
-    ATC MODE NOTES.
-- Must work in accordance with selected difficulty.
-- ATC memoTimerON() starts the moment it start speaking and ends the instant the voice stops. It can't be skipped.
-- During memoTimerON(), no  instrument will be shown.
-- Evaluate if you want to allow inputBox active during speaking.
-- Must detect and repeat callsign upon every answerGen().
-- Every letter must be phonetic and said individually.
-- Callsign must be able to distinguish common airline callsign. I.e. COPA 1-2-3 instead of Charlie Mike Papa 1-2-3.
-- Must have different order and style for each instrument information.
-- Must follow correct ATC structure:
-    - Callsign must be the first thing said.
-    - Airspeed is said completly, and specify 'maintain' at the start and 'knots' at the end.
-    - Altitude must depict 'thousands' and 'hundred' feets.
-    - Altitude can either be 'climb and maintain' or 'decend and mantain'.
-    - Altimeter setting is always right after altitude.
-    - Altimeter setting has to be said number by number. Decimal separation must be said as either 'point' or 'decimal'.
-    - Heading must start  with 'heading' before saying the number.
-    - Heading has to be said number by number,  including any left-side zeroes (0).
-    - Heading can be said as 'North, 'East', 'South', or 'West' instead of their corresponding cardinal number.
-    - Comm and Nav must be said number by number. Decimal sparation must be said as eitheer 'point' or 'decimal'
-
-
-AND FINALLY!
-Whateever process that needs to be done, must be done AFTER generating the answers and must use those same  answers. THIS CANNOT USE ANY GEN() FUNCTION
-*/

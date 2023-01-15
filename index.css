@@ -186,6 +186,19 @@ PRIMARY FLIGHT DISPLAY
     border: 1px lightgrey solid;
 }
 
+/* HIDES input arrows on Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*HIDES input arrows on Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
 .instrument>span {
     /*Answer display boxes*/
     display: none;
@@ -267,8 +280,6 @@ BUTTON CONTAINER
     align-items: center;
 }
 
-
-
 .setting-options {
     display: flex;
     flex-direction: row;
@@ -300,7 +311,13 @@ BUTTON CONTAINER
     background-color: hsl(var(--cbgrey-h), var(--cbgrey-s), var(--cbgrey-l));
 
 }
-
+/*
+@media (max-width: 1000px) {
+    .num-pad.active {
+        display: grid;
+    }
+}
+*/
 .num-key {
     font-family: var(--ff);
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
