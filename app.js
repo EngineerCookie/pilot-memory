@@ -1,10 +1,8 @@
 //TEXT TO SPEECH FOR ATC MODE
-/*
-let atc = 'COPA one two three, maintain 150 knots, climb and maintain one three thousand feet altimeter setting two niner niner five, heading three six zero. Contact approach one two two point six. Vee Oh R frequency one one seven point one. '*/
-/*let atc ='northeast';
-let msg = new SpeechSynthesisUtterance(atc);
-window.speechSynthesis.speak(msg);
-
+/*let atcTest = 'COPA one two three, maintain 150 knots, climb and maintain one three thousand feet altimeter setting two niner niner five, heading three six zero. Contact approach one two two point six. Vee Oh R frequency one one seven point one. '
+//let atc ='northeast';
+let msg = new SpeechSynthesisUtterance(atcTest);
+window.speechSynthesis.speak(msg);*/
 
 /*#######
 RANDOM GENERATORS
@@ -76,7 +74,10 @@ let setting = document.querySelector('.setting');
 let callsign = document.querySelector('#callsign-input');
 let instrumentIndicators = document.querySelectorAll('[data-instrument]');
 let inputBox = document.querySelectorAll('[data-user-answer]');
-let atcMode = document.querySelector('[data-atc]')
+let atcMode = document.querySelector('[data-atc]');
+
+//stops atcComm if page refresh;
+window.speechSynthesis.cancel()
 
 //Game stadistics
 let roundLimit; //This is set in gameStart()
@@ -142,6 +143,7 @@ let atc = await getData('./atc.json');
 //COUNTDOWN before FIRST ROUND
 function countDown() {
     setting.classList.remove('active');
+    atcMode.classList.remove('active')
     let countdown = document.createElement('div')
     countdown.classList.add('countdown');
     let countTimer = document.createElement('div');
@@ -238,7 +240,7 @@ function answerGen() { //Generates the correct answers
                         })
                     }
                     message += `${matchA[2].split('').join(' ')} `;
-                    if (matchA[3] != '') {
+                    if (matchA[3] != undefined) {
                         let splitB = matchA[3].split('');
                         splitB.forEach(letter => {
                             message += `${atc.phonetic[letter.toLowerCase()]} `
@@ -281,8 +283,26 @@ function answerGen() { //Generates the correct answers
         message = message.replace(/ \. /g, atc.phonetic["point"][Math.floor(Math.random() * atc.phonetic['point'].length)])
         let atcComm = new SpeechSynthesisUtterance(message);
         window.speechSynthesis.speak(atcComm);
-        console.log(message)
-    }
+
+        instrumentIndicators.forEach((indicator) => {
+            indicator.classList.remove('active');
+        })
+
+        inputBox.forEach((input) => {
+            input.classList.add('active');
+            input.value = ''
+        })
+
+        startBtn.dataset.action = 'submit';
+        startBtn.textContent = 'submit'
+        startBtn.classList.add('disabled');
+
+        //atcFinished() callback
+        atcComm.addEventListener('end', () => {
+            atcFinished()
+        })
+
+    } else { //rendering in normal mode
 
     //render answers on screen
     instrumentIndicators.forEach((indicator) => {
@@ -292,11 +312,11 @@ function answerGen() { //Generates the correct answers
         input.classList.remove('active');
     })
     //DEV ONLY answers to console.log
-    console.log(correctAnswers)
+    //console.log(correctAnswers)
 
     //Callback to MemotimerON()
     memoTimerON()
-}
+}}
 
 //Memorization TIMER
 let memoTimer;
@@ -312,7 +332,6 @@ function memoTimerON() {
     startBtn.dataset.action = 'skip';
     startBtn.textContent = 'skip'
 
-    //ATC MODE: instrumentIndicators never activates. Must have setTimeout when ATC is finished.
     memoTimer = setTimeout(() => {
         memoBar.remove();
         instrumentIndicators.forEach((indicator) => {
@@ -341,8 +360,8 @@ function memoTimerOFF() { //memorization timer skip
     startBtn.textContent = 'submit'
 }
 
-function atcSpeaking() { //Memotimer but for ATC Mode
-
+function atcFinished() { //Memotimer but for ATC Mode
+    startBtn.classList.remove('disabled');
 }
 
 
@@ -383,7 +402,7 @@ function resultScreen() {
 
     //render elements; answer history, score calculation and right||wrong checker
     let resultHistory = document.querySelector('.result-history');
-    for (i = 0; i < answerHistory.correct.length; i++) {
+    for (let i = 0; i < answerHistory.correct.length; i++) {
         let entry = document.createElement('div');
         entry.setAttribute('data-history', i);
         Object.keys(answerHistory.correct[i]).forEach((key) => {
@@ -427,6 +446,7 @@ function resultScreen() {
     })
 
     //Main menu restore
+    atcMode.classList.add('active')
     title.textContent = 'Pilot Memory Training';
     callsign.readOnly = false;
     setting.classList.add('active')

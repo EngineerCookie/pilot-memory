@@ -438,9 +438,16 @@ ATC MODE
 ########*/
 .atc-mode {
     color: hsl(var(--cwhite-h), var(--cwhite-s), var(--cwhite-l));
-    margin-bottom: 0.5rem;
     cursor: pointer;
     user-select: none;
+}
+
+[data-atc] ~ span {
+    margin-bottom: 0.5rem;
+    display: none;
+}
+
+[data-atc].active ~ span {
     display: block;
 }
 
