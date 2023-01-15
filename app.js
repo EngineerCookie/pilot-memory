@@ -435,9 +435,13 @@ function resultScreen() {
     //close btn
     let btn = document.getElementById('result-close');
     btn.addEventListener('click', () => {
-        resultScreen.close()
-    })
+        resultHistory.replaceChildren();
+        resultScreen.close();
+    });
 
+    //answerHistory reset
+    answerHistory.correct = [];
+    answerHistory.userInput = [];
     //Main menu restore
     atcMode.classList.add('active')
     title.textContent = 'Pilot Memory Training';
@@ -449,7 +453,8 @@ function resultScreen() {
     inputBox.forEach((input) => {
         input.classList.remove('active');
         input.value = ''
-    })
+    });
+
     startBtn.dataset.action = 'start'
     startBtn.textContent = 'start game'
 }
