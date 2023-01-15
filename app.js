@@ -193,11 +193,11 @@ function answerGen() { //Generates the correct answers
                 altSet.textContent = correctAnswers.altSet;
                 break;
             case 'comm':
-                correctAnswers.comm =  commGen();
+                correctAnswers.comm = commGen();
                 comm.textContent = correctAnswers.comm;
                 break;
             case 'nav':
-                correctAnswers.nav  = navGen();
+                correctAnswers.nav = navGen();
                 nav.textContent = correctAnswers.nav;
                 break;
             default:
@@ -210,20 +210,20 @@ function answerGen() { //Generates the correct answers
 
     //ATC MODE: do not render answer on screen. Script for ATC must be  made HERE. Have it use correctAnswers obj and it will have the difficulty integrarted  alreeady
     if (atcMode.checked == true) {
-        let callsign = document.querySelector('[data-callsign]').value.replace(/\s/g, '');
+        let callsignValue = callsign.value.replace(/\s/g, '');
         let correctKeys = Object.keys(correctAnswers).sort(keySort);
         function keySort(a, b) { //from https://stackoverflow.com/questions/53591691/sorting-an-array-in-random-order
             return 0.5 - Math.random()
         }
-        let message ='';
+        let message = '';
         correctKeys.unshift('callsign'); //make sure callsign is always first
         correctKeys.forEach((key) => { //message constructor
-            switch(key){
+            switch (key) {
                 case 'callsign':
                     let regexA = /([A-Za-z]+)-*([0-9]+)-*([A-Za-z]*[0-9]*)*/;
-                    let matchA = callsign.match(regexA);
+                    let matchA = callsignValue.match(regexA);
                     let arrA = Object.keys(atc.airline);
-                    if (arrA.indexOf(matchA[1]) >= 0){
+                    if (arrA.indexOf(matchA[1]) >= 0) {
                         message += `${atc.airline[matchA[1]]} `;
                     } else {
                         let splitA = matchA[1].split('');
@@ -264,7 +264,7 @@ function answerGen() { //Generates the correct answers
                     message += `contact ${commATC[Math.floor(Math.random() * commATC.length)]} ${correctAnswers.comm.split('').join(' ')} ; `
                     break;
                 case 'nav':
-                    message += `closest Vee Oh R frequency ${correctAnswers.nav.split(''). join(' ')} ; `
+                    message += `closest Vee Oh R frequency ${correctAnswers.nav.split('').join(' ')} ; `
                     break;
                 default:
                     console.log('something wrong with atc-keys')
@@ -296,19 +296,20 @@ function answerGen() { //Generates the correct answers
 
     } else { //rendering in normal mode
 
-    //render answers on screen
-    instrumentIndicators.forEach((indicator) => {
-        indicator.classList.add('active');
-    })
-    inputBox.forEach((input) => {
-        input.classList.remove('active');
-    })
-    //DEV ONLY answers to console.log
-    //console.log(correctAnswers)
+        //render answers on screen
+        instrumentIndicators.forEach((indicator) => {
+            indicator.classList.add('active');
+        })
+        inputBox.forEach((input) => {
+            input.classList.remove('active');
+        })
+        //DEV ONLY answers to console.log
+        //console.log(correctAnswers)
 
-    //Callback to MemotimerON()
-    memoTimerON()
-}}
+        //Callback to MemotimerON()
+        memoTimerON()
+    }
+}
 
 //Memorization TIMER
 let memoTimer;
@@ -320,7 +321,7 @@ function memoTimerON() {
     let memoSec = 10000; //time set to memorize
     workspace.appendChild(memoBar);
     memoBar.style.animationDuration = `${memoSec / 1000}s`;
-    
+
     startBtn.dataset.action = 'skip';
     startBtn.textContent = 'skip'
 
@@ -457,7 +458,12 @@ function resultScreen() {
 startBtn.addEventListener('click', () => {
     switch (startBtn.dataset.action) {
         case "start":
-            countDown()
+            if (atcMode.checked == true) {
+                let regexTest = /^([A-Za-z]+)-*([0-9]+)-*([A-Za-z]*[0-9]*)*$/;
+                if (regexTest.test(callsign.value.replace(/\s/g, '')) == true) {
+                    countDown()
+                } else {alert('Callsigns are made from: letter - numbers')}
+            } else{countDown()}
             break;
         case "skip": //skips the memorization timer
             memoTimerOFF()
@@ -469,3 +475,6 @@ startBtn.addEventListener('click', () => {
             console.log(`Something wrong  with  the action btn`)
     }
 })
+
+
+/*WORKBENCH*/
