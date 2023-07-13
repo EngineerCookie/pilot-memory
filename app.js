@@ -223,8 +223,8 @@ function answerGen() { //Generates the correct answers
                     let regexA = /([A-Za-z]+)-*([0-9]+)-*([A-Za-z]*[0-9]*)*/;
                     let matchA = callsignValue.match(regexA);
                     let arrA = Object.keys(atc.airline);
-                    if (arrA.indexOf(matchA[1]) >= 0) {
-                        message += `${atc.airline[matchA[1]]} `;
+                    if (arrA.indexOf(matchA[1].toLowerCase()) >= 0) {
+                        message += `${atc.airline[matchA[1].toLowerCase()]} `;
                     } else {
                         let splitA = matchA[1].split('');
                         splitA.forEach(letter => {
